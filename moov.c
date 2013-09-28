@@ -108,8 +108,6 @@ static int get_aligned_start_and_end(struct mp4_context_t const* mp4_context,
   struct moov_t* moov = mp4_context->moov;
   long moov_time_scale = moov->mvhd_->timescale_;
 
-  MP4_INFO("start=%u (xxx tracey ftw)\n", start);
-
   for(pass = 0; pass != 2; ++pass)
   {
     unsigned int i;
