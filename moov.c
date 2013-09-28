@@ -396,6 +396,25 @@ extern int mp4_split(struct mp4_context_t* mp4_context,
     // adjust sample to keyframe
     result = get_aligned_start_and_end(mp4_context, start, end,
                                        trak_sample_start, trak_sample_end);
+
+    {
+      // now we need to find the audio track and RESET *its* trak_sample_start
+      // time to the exact start time we want, regardless of keyframes
+      int i=0;
+      for(i=0; i != moov->tracks_; ++i){
+        struct trak_t* trak = moov->traks_[i];
+        long trak_time_scale = trak->mdia_->mdhd_->timescale_;
+        
+        if (trak_time_scale == 44100){/*xxxx better way than 44100 to detect audio trak!*/
+          struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
+          unsigned int start_exact_time_sample = stts_get_sample(stts, moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
+          fprintf(stderr, "..gop() AUDIO REWRITING trak_sample_start %u => %u\n", trak_sample_start[i], start_exact_time_sample);
+          trak_sample_start[i] = start_exact_time_sample;
+        }
+      }
+    }
+
+    
   }
 
   return result;
