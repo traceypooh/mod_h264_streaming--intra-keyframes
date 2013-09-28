@@ -29,11 +29,12 @@ int main(int argc, char *argv[])
   int end=0;
 
   char *filename="/home/tracey/public_html/_/slip/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4";
-  int start=13;
+  int start=468;  // KEYFRAMES at  465.221  and  471.561 
+
   
   if (argc > 1) filename = argv[1];
   if (argc > 2) start = atoi(argv[2]);
-  if (argc > 3) end = atoi(argv[3]); else end = start + 30;
+  if (argc > 3) end   = atoi(argv[3]); else end = start + 30;
   
 
   fin  = fopen(filename, "rb");//xxx
