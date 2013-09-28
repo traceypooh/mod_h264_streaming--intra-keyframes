@@ -218,17 +218,15 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
                                                 struct trak_t *trak, 
                                                 unsigned int start_sample)
 {
-  fprintf(stderr,"trak_fast_forward_first_partial_gop() start:%f start_sample:%u\n", options->start, start_sample);
-  fprintf(stderr, "moof off %ld\n", mp4_context->moof_offset_);
-
-
   struct stbl_t* stbl = trak->mdia_->minf_->stbl_;
   stss_t *stss = stbl->stss_; // list of KEYFRAMES.   see stss_read() for where this came from!
 
-  if (!stbl->stss_) return; //xxx ever not true for IA mp4??  guess do nothing when so...
-  
-  unsigned int min_sample=0, max_sample=0;
+  if (!stbl->stss_) {
+    fprintf(stderr, "NO STSS\n");
+    return; //xxx ever not true for IA mp4??  guess do nothing when so...
+  }
 
+  
 
   // find the sample frame location of the exact desired time we wanted to 
   // start at (regardless of keyframes!)
@@ -237,56 +235,11 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   float trak_time_scale = trak->mdia_->mdhd_->timescale_;
   unsigned int start_exact_time_sample = stts_get_sample(stbl->stts_,
                                                          moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
-  {
-    unsigned int start = start_exact_time_sample;
-    fprintf(stderr,"start=%u (trac time)\n", start);
-    fprintf(stderr,"start=%.2f (seconds)\n",
-             stts_get_time(stbl->stts_, start) / (float)trak_time_scale);
-    
-//start = stbl_get_nearest_keyframe(stbl, start + 1) - 1; //xxx NOTICE!
-    fprintf(stderr,"start=%u (zero based keyframe)\n", start);
-    
-    start_exact_time_sample = start;//xxx NOTICE!
-
-    start = (unsigned int)(trak_time_to_moov_time(
-                             stts_get_time(stbl->stts_, start), moov_time_scale, trak_time_scale));
-    fprintf(stderr,"start=%u (moov time)\n", start);
-    fprintf(stderr,"start=%.2f (seconds)\n", start / (float)moov_time_scale);
-  }
 
 
-  
-  // first search through keyframes to find the keyframes just before and just after the "start"
-  {
-    struct moov_t* moov = mp4_context->moov;
-    
-    stts_t *stts = stbl->stts_;
-    int i;
-    for (i=0; i < stss->entries_; i++){
-      //30000 == stts_get_time(stts,  stss->sample_numbers_[i]);   //xxx ftw
-      fprintf(stderr,"keyframe: sample number: %d => time: %2.3f\n", 
-              stss->sample_numbers_[i], 
-              //((double)(stss->sample_numbers_[i]) / 29.97));/*xxx ftw?!?!*/
-              
-              //((double)(stss->sample_numbers_[i]-1) * moov_time_scale / trak_time_scale));/*xxx ftw?!?!*/
-              //((double)(stss->sample_numbers_[i]-1) * moov_time_scale / trak_time_scale) + 0.5f);/*xxx ftw?!?!*/
-
-              // is "start" per ffmpeg...   0.023220
-              ((double)(stss->sample_numbers_[i]-1) / 29.97) + 0.023220);/*xxx ftw?!?!*/
-
-      
-      if (stss->sample_numbers_[i] < start_exact_time_sample)
-        min_sample = stss->sample_numbers_[i];
-      else if (max_sample == 0)
-        max_sample = stss->sample_numbers_[i]; // xxx note we could "break" now if we less verbose above
-    }
-
-    fprintf(stderr, "moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
-  }
-
-
-  fprintf(stderr,"trak_fast_forward_first_partial_gop() start: %fs;  sample numbers:  wanted start:[%u => %u] is between %u and %u; last %u\n", 
-          options->start, start_exact_time_sample, start_sample, min_sample, max_sample,
+  fprintf(stderr, "moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
+  fprintf(stderr,"trak_fast_forward_first_partial_gop() start: %fs;  sample start exact time:%u;  sample keyframe just before:%u;  last sample %u\n", 
+          options->start, start_exact_time_sample, start_sample,
           stss->sample_numbers_[stss->entries_-1]);
 
 
@@ -311,7 +264,6 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
       // finds the keyframe (sample time) before the exact start time, and *then*
       // decrements by one.  so those samples "go out the door" -- and thus we
       // need to rewrite them, too
-      // (and not just from "min_sample" to "start_exact_time_sample")
       uint64_t pts2 = (s >= start_sample  &&  s < start_exact_time_sample ? trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s) : pts);
       if (pts2 != pts){
         trak->samples_[s].pts_ = pts2;
