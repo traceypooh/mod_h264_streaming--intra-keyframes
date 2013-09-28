@@ -224,6 +224,7 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
     fprintf(stderr, "..gop() NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK 8-( \n");
     return;
   }
+  struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
   
     
 
@@ -232,9 +233,7 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   struct moov_t* moov = mp4_context->moov;
   float moov_time_scale = moov->mvhd_->timescale_;
   float trak_time_scale = trak->mdia_->mdhd_->timescale_;
-  unsigned int start_exact_time_sample = stts_get_sample(stbl->stts_,
-                                                         moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
-
+  unsigned int start_exact_time_sample = stts_get_sample(stts, moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
 
   fprintf(stderr,"trak_fast_forward_first_partial_gop() start: %fs;  sample start exact time:%u;  sample keyframe just before:%u\n", 
           options->start, start_exact_time_sample, start_sample);
@@ -247,12 +246,11 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
     stss_t *stss = stbl->stss_; // list of KEYFRAMES.   see stss_read() for where this came from!
     fprintf(stderr,"..gop() last sample %u\n", stss->sample_numbers_[stss->entries_-1]);
   }
-  else{
+  else {
     fprintf(stderr, "..gop() warning: no stss\n");
   }
   
 
-  struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
   unsigned int s = 0;
   unsigned int entries = stts->entries_;
   unsigned int j;
@@ -267,10 +265,10 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
       // finds the keyframe (sample time) before the exact start time, and *then*
       // decrements by one.  so those samples "go out the door" -- and thus we
       // need to rewrite them, too
-      uint64_t pts2 = (s >= start_sample  &&  s < start_exact_time_sample ? trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s) : pts);
-      if (pts2 != pts){
+      if (s >= start_sample  &&  s < start_exact_time_sample){
+        uint64_t pts2 = trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s);
         trak->samples_[s].pts_ = pts2;
-        fprintf(stderr,"..gop() stts[%d] samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, pts, ((float)pts / 30000), pts2, ((float)pts2 / 30000));//xxxxxxxxxxx /30000 bad science!
+        fprintf(stderr,"..gop() stts[%d] samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, pts, ((float)pts / trak_time_scale), pts2, ((float)pts2 / trak_time_scale));
       }
       s++;
     }
