@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
   FILE *fin=NULL,*fout=NULL;
   int end=0;
 
-  char *filename="/home/tracey/public_html/_/slip/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4";
+  char *filename="/home/tracey/public_html/_/x/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4";
   int start=468;  // KEYFRAMES at  465.221  and  471.561 
 
   
@@ -38,10 +38,11 @@ int main(int argc, char *argv[])
   
 
   fin  = fopen(filename, "rb");//xxx
-  fout = fopen("out.mp4","wb");//xxx
+  fout = fopen("xport.mp4","wb");//xxx
   
   
   fprintf(stderr,"opening file: %s\n",filename);
+  fprintf(stderr,"start: %d, end: %d\n",start,end);
 
   stat(filename, &st);
   filesize = st.st_size;
@@ -49,38 +50,6 @@ int main(int argc, char *argv[])
   mp4_open_flags flags = MP4_OPEN_ALL;
   mp4_context_t* mpc = mp4_open(filename, filesize, flags, verbose);
 
-
-  struct moov_t* moov = mpc->moov;
-  float moov_time_scale = moov->mvhd_->timescale_;
-  int i;
-  for(i = 0; i != moov->tracks_; ++i){
-    struct trak_t* trak = moov->traks_[i];
-    struct stbl_t* stbl = trak->mdia_->minf_->stbl_;
-    float trak_time_scale = trak->mdia_->mdhd_->timescale_;
-    fprintf(stderr, "moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
-
-    if (stbl->stss_){
-      stss_t *stss = stbl->stss_; // see stss_read() for where this came from!
-      stts_t *stts = stbl->stts_;
-      int j;
-      for (j=0; j < stss->entries_; j++){
-        //30000 == stts_get_time(stts,  stss->sample_numbers_[j]);   //xxx ftw
-        fprintf(stderr,"keyframe: sample number: %d => time: %2.3f\n", 
-                stss->sample_numbers_[j], 
-                //((double)(stss->sample_numbers_[j]) / 29.97));/*xxx ftw?!?!*/
-
-                // is "start" per ffmpeg...   0.023220
-                ((double)(stss->sample_numbers_[j]-1) / 29.97) + 0.023220);/*xxx ftw?!?!*/
-
-                //((double)(stss->sample_numbers_[j]-1) * moov_time_scale / trak_time_scale));/*xxx ftw?!?!*/
-                //((double)(stss->sample_numbers_[j]-1) * moov_time_scale / trak_time_scale) + 0.5f);/*xxx ftw?!?!*/
-      }
-    }
-  }
-
-
-  fprintf(stderr, "moof off %ld\n", mpc->moof_offset_);
-  
 
 
   

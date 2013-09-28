@@ -211,37 +211,125 @@ static void compress_moov(struct mp4_context_t* mp4_context,
 }
 #endif
 
+
+
+static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_context, 
+                                                struct mp4_split_options_t* options, 
+                                                struct trak_t *trak, 
+                                                unsigned int start_sample)
+{
+  fprintf(stderr,"trak_fast_forward_first_partial_gop() start:%f start_sample:%u\n", options->start, start_sample);
+  fprintf(stderr, "moof off %ld\n", mp4_context->moof_offset_);
+
+
+  struct stbl_t* stbl = trak->mdia_->minf_->stbl_;
+  stss_t *stss = stbl->stss_; // list of KEYFRAMES.   see stss_read() for where this came from!
+
+  if (!stbl->stss_) return; //xxx ever not true for IA mp4??  guess do nothing when so...
+  
+  unsigned int min_sample=0, max_sample=0;
+
+
+  // find the sample frame location of the exact desired time we wanted to 
+  // start at (regardless of keyframes!)
+  struct moov_t* moov = mp4_context->moov;
+  float moov_time_scale = moov->mvhd_->timescale_;
+  float trak_time_scale = trak->mdia_->mdhd_->timescale_;
+  unsigned int start_exact_time_sample = stts_get_sample(stbl->stts_,
+                                                         moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
+  {
+    unsigned int start = start_exact_time_sample;
+    fprintf(stderr,"start=%u (trac time)\n", start);
+    fprintf(stderr,"start=%.2f (seconds)\n",
+             stts_get_time(stbl->stts_, start) / (float)trak_time_scale);
+    
+//start = stbl_get_nearest_keyframe(stbl, start + 1) - 1; //xxx NOTICE!
+    fprintf(stderr,"start=%u (zero based keyframe)\n", start);
+    
+    start_exact_time_sample = start;//xxx NOTICE!
+
+    start = (unsigned int)(trak_time_to_moov_time(
+                             stts_get_time(stbl->stts_, start), moov_time_scale, trak_time_scale));
+    fprintf(stderr,"start=%u (moov time)\n", start);
+    fprintf(stderr,"start=%.2f (seconds)\n", start / (float)moov_time_scale);
+  }
+
+
+  
+  // first search through keyframes to find the keyframes just before and just after the "start"
+  {
+    struct moov_t* moov = mp4_context->moov;
+    
+    stts_t *stts = stbl->stts_;
+    int i;
+    for (i=0; i < stss->entries_; i++){
+      //30000 == stts_get_time(stts,  stss->sample_numbers_[i]);   //xxx ftw
+      fprintf(stderr,"keyframe: sample number: %d => time: %2.3f\n", 
+              stss->sample_numbers_[i], 
+              //((double)(stss->sample_numbers_[i]) / 29.97));/*xxx ftw?!?!*/
+              
+              //((double)(stss->sample_numbers_[i]-1) * moov_time_scale / trak_time_scale));/*xxx ftw?!?!*/
+              //((double)(stss->sample_numbers_[i]-1) * moov_time_scale / trak_time_scale) + 0.5f);/*xxx ftw?!?!*/
+
+              // is "start" per ffmpeg...   0.023220
+              ((double)(stss->sample_numbers_[i]-1) / 29.97) + 0.023220);/*xxx ftw?!?!*/
+
+      
+      if (stss->sample_numbers_[i] < start_exact_time_sample)
+        min_sample = stss->sample_numbers_[i];
+      else if (max_sample == 0)
+        max_sample = stss->sample_numbers_[i]; // xxx note we could "break" now if we less verbose above
+    }
+
+    fprintf(stderr, "moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
+  }
+
+
+  fprintf(stderr,"trak_fast_forward_first_partial_gop() start: %fs;  sample numbers:  wanted start:[%u => %u] is between %u and %u; last %u\n", 
+          options->start, start_exact_time_sample, start_sample, min_sample, max_sample,
+          stss->sample_numbers_[stss->entries_-1]);
+
+
+
+
+  
+  
+  
+  struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
+  unsigned int s = 0;
+  unsigned int entries = stts->entries_;
+  unsigned int j;
+  for(j = 0; j < entries; j++){
+    unsigned int i;
+    unsigned int sample_count = stts->table_[j].sample_count_;
+    unsigned int sample_duration = stts->table_[j].sample_duration_;
+    fprintf(stderr," %d samples VS %d samples\n", stss->entries_, sample_count);
+    for(i = 0; i < sample_count; i++)
+    {
+      uint64_t pts = trak->samples_[s].pts_;
+      // NOTE: begin time-shifting at "start_sample" bec. mod_h264_streaming 
+      // finds the keyframe (sample time) before the exact start time, and *then*
+      // decrements by one.  so those samples "go out the door" -- and thus we
+      // need to rewrite them, too
+      // (and not just from "min_sample" to "start_exact_time_sample")
+      uint64_t pts2 = (s >= start_sample  &&  s < start_exact_time_sample ? trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s) : pts);
+      if (pts2 != pts){
+        trak->samples_[s].pts_ = pts2;
+        fprintf(stderr,"tracey stts[%d] samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, pts, ((float)pts / 30000), pts2, ((float)pts2 / 30000));//xxxxxxxxxxx /30000 bad science!
+      }
+      s++;
+    }
+  }
+
+  fprintf(stderr,"xxx sample?  %u\n", s);
+}
+
+
 static void trak_update_index(struct mp4_context_t const* mp4_context,
                               struct trak_t* trak,
                               unsigned int start, unsigned int end)
 {
   // write samples [start,end>
-
-
-    if (1) { // [tracey xxx
-      fprintf(stderr,"tracey xxx hiiiiiiiiiiiiiiiii start:%u end:%u \n", start, end);
-      struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
-      unsigned int s = 0;
-      unsigned int entries = stts->entries_;
-      unsigned int j;
-      for(j = 0; j < entries; j++){
-        unsigned int i;
-        unsigned int sample_count = stts->table_[j].sample_count_;
-        unsigned int sample_duration = stts->table_[j].sample_duration_;
-        for(i = 0; i < sample_count; i++)
-        {
-          uint64_t pts = trak->samples_[s].pts_;
-          uint64_t pts2 = (s < 125 ? trak->samples_[125].pts_ - (125-s) : pts);
-          //pts2 = (s < 125 ? 0 : pts); //xxxxxxxxxxxxxxxxxxxxxxxx
-          if (pts2 != pts){
-            trak->samples_[s].pts_ = pts2;
-            fprintf(stderr,"tracey stts[%d] samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, pts, ((float)pts / 30000), pts2, ((float)pts2 / 30000));//xxxxxxxxxxx /30000 bad science!
-          }
-          s++;
-        }
-      }
-    }; // tracey xxx]
-
 
   // stts = [entries * [sample_count, sample_duration]
   {
@@ -471,6 +559,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
 }
 
 
+
 extern int output_mp4(struct mp4_context_t* mp4_context,
                       unsigned int const* trak_sample_start,
                       unsigned int const* trak_sample_end,
@@ -550,6 +639,9 @@ extern int output_mp4(struct mp4_context_t* mp4_context,
 
     unsigned int start_sample = trak_sample_start[i];
     unsigned int end_sample = trak_sample_end[i];
+
+
+    trak_fast_forward_first_partial_gop(mp4_context, options, trak, start_sample);
 
     trak_update_index(mp4_context, trak, start_sample, end_sample);
 
