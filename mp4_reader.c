@@ -1552,8 +1552,6 @@ static void* trak_read(mp4_context_t const* mp4_context,
   return atom;
 }
 
-
-
 static void* mvhd_read(mp4_context_t const* UNUSED(mp4_context),
                        void* UNUSED(parent),
                        unsigned char* buffer, uint64_t size)
@@ -1604,17 +1602,6 @@ static void* mvhd_read(mp4_context_t const* UNUSED(mp4_context),
     buffer += 4;
   }
 
-  fprintf(stderr,"xxx tracey [selection time] %u\n",atom->predefined_[3]);
-  fprintf(stderr,"xxx tracey [selection duration] %u\n\n",atom->predefined_[4]);
-  atom->predefined_[3] = 900; //xxx tracey
-  atom->predefined_[4] = 900; //xxx tracey
-  fprintf(stderr,"xxx tracey [preview time] %u\n",atom->predefined_[0]);
-  fprintf(stderr,"xxx tracey [preview duration] %u\n",atom->predefined_[1]);
-  fprintf(stderr,"xxx tracey [poster time] %u\n",atom->predefined_[2]);
-  fprintf(stderr,"xxx tracey [selection time] %u\n",atom->predefined_[3]);
-  fprintf(stderr,"xxx tracey [selection duration] %u\n",atom->predefined_[4]);
-  fprintf(stderr,"xxx tracey [current time] %u\n",atom->predefined_[5]);
-  
   atom->next_track_id_ = read_32(buffer + 0);
 
   return atom;
@@ -1757,138 +1744,6 @@ static void* mvex_read(mp4_context_t const* mp4_context,
   return atom;
 }
 
-
-
-
-
-
-
-
-  /*
-
-The window location, looping, play selection only, play all frames, and print to video atoms control the way QuickTime displays a movie. These atoms are interpreted only if the user data atom’s immediate parent is a movie atom ('moov'). If they are included as part of a track atom’s user data, they are ignored.
-
-'SelO'
-Play selection only—byte indicating that only the selected area of the movie should be played
-
-
-Atom moov @ 32 of size: 1577604, ends @ 1577636
-     ...
-     Atom udta @ 1577360 of size: 276, ends @ 1577636
-         Atom meta @ 1577368 of size: 268, ends @ 1577636
-             Atom hdlr @ 1577380 of size: 33, ends @ 1577413
-             Atom ilst @ 1577413 of size: 223, ends @ 1577636
-                 Atom ©nam @ 1577421 of size: 178, ends @ 1577599
-                     Atom data @ 1577429 of size: 170, ends @ 1577599
-                 Atom ©too @ 1577599 of size: 37, ends @ 1577636
-                     Atom data @ 1577607 of size: 29, ends @ 1577636
-  */    
-static void* moov_add_udta(mp4_context_t const* mp4_context,
-                       void* UNUSED(parent),
-                       unsigned char* buffer, uint64_t size)
-{
-}
-#define FE      fprintf(stderr,"  tracey xxx "); fprintf(stderr,
-//#define FE(a)   fprintf(stderr,"  tracey xxx "); fprintf(stderr, (a));
-static void* udta_read(mp4_context_t const* UNUSED(mp4_context),
-                       void* UNUSED(parent),
-                       unsigned char* buffer, uint64_t size)
-{
-  long l=0, asize=0;
-  unsigned char *pEnd;
-
-  // should be "meta"  
-  FE "udta_read()\n");
-  asize = read_32(buffer);
-  FE "  atom size %u\n", asize);
-  l=read_32(buffer+4);
-  FE "  type %c%c%c%c (meta right?)\n", (l>>24 & 0xff), (l>>16 & 0xff), (l>>8 & 0xff), (l>>0 & 0xff));
-  pEnd = buffer + asize;
-  buffer += 8; // skip those 8 bytes
-
-
-  buffer += 4; // skip another X, because it dont work o/w (ftw xxx)
-
-
-
-  // should be "hdlr"
-  asize = read_32(buffer);
-  FE "  atom size %u\n", asize);
-  l=read_32(buffer+4);
-  FE "  type %c%c%c%c (hdlr right?)\n", (l>>24 & 0xff), (l>>16 & 0xff), (l>>8 & 0xff), (l>>0 & 0xff));
-  buffer += 8; // skip those 8 bytes
-
-  buffer += asize; // skip hdlr atom
-
-
-  // should be starting *inside* "ilst" now
-  while (buffer < pEnd){
-    // should be like "©nam" or "©too", etc.
-    int datasize = read_32(buffer);
-    FE "    atom size %u\n", datasize);
-    l=read_32(buffer+4);
-    FE "    list entry type %c%c%c%c\n", (l>>24 & 0xff), (l>>16 & 0xff), (l>>8 & 0xff), (l>>0 & 0xff));
-    unsigned char *dEnd = buffer + datasize;
-    buffer += 8; // skip those 8 bytes
-
-    // should be "data"
-    asize = read_32(buffer);
-    FE "      atom size %u\n", asize);
-    l=read_32(buffer+4);
-    FE "      type %c%c%c%c (data right?)\n      [", (l>>24 & 0xff), (l>>16 & 0xff), (l>>8 & 0xff), (l>>0 & 0xff));
-    buffer += 8; // skip those 8 bytes
-
-    // next 8 bytes are language code, i **think**
-    l=read_32(buffer);
-    if (l==1){
-      buffer+=4;
-      l=read_32(buffer);
-      if (l==0){
-        buffer+=4;
-
-        // now read value
-        while (buffer < dEnd){
-          char ch = *(buffer++);
-          fprintf(stderr, "%c", ch);
-        }
-        fprintf(stderr, "]\n");
-      }
-    }
-    buffer = dEnd;
-
-// optional evil!  
-    if (0){
-      FILE *fout = fopen("tmp","wb");
-      fwrite(buffer, 1, pEnd - buffer, fout);
-      fclose(fout);
-
-      unsigned char *next17=buffer;
-
-      write_32(buffer, 17); buffer+=4;//xxx check (17 bytes for this atom len)
-      *(buffer++) = 'S'; // now write SelO atom type
-      *(buffer++) = 'e';
-      *(buffer++) = 'l';
-      *(buffer++) = 'O';
-      write_32(buffer, 9); buffer+=4;//xxx check (9 bytes for this atom len)
-      *(buffer++) = 'd'; // now write data atom type
-      *(buffer++) = 'a';
-      *(buffer++) = 't';
-      *(buffer++) = 'a';
-      *(buffer++) = 1; // byte indicating play selection only
-
-      fout = fopen("17","wb");
-      fwrite(next17, 1, 17, fout);
-      fclose(fout);
-     
-
-      buffer = pEnd;
-      return;
-    }else FE "\n\n**NOT** TRYING TO INJECT SelO RIGHT NOW\n\n");
-  }
-}
-
-
-
 extern void* moov_read(mp4_context_t const* mp4_context,
                        void* UNUSED(parent),
                        unsigned char* buffer, uint64_t size)
@@ -1898,7 +1753,7 @@ extern void* moov_read(mp4_context_t const* mp4_context,
   atom_read_list_t atom_read_list[] = {
     { FOURCC('m', 'v', 'h', 'd'), &moov_add_mvhd, &mvhd_read },
     { FOURCC('t', 'r', 'a', 'k'), &moov_add_trak, &trak_read },
-    { FOURCC('m', 'v', 'e', 'x'), &moov_add_mvex, &mvex_read }/*tracey xxx*/,{ FOURCC('u', 'd', 't', 'a'), &moov_add_udta, &udta_read }
+    { FOURCC('m', 'v', 'e', 'x'), &moov_add_mvex, &mvex_read }
   };
 
   int result = atom_reader(mp4_context,
@@ -2466,7 +2321,6 @@ static int trak_build_index(mp4_context_t const* mp4_context, trak_t* trak)
       for(i = 0; i < sample_count; i++)
       {
         trak->samples_[s].pts_ = pts;
-fprintf(stderr,"tracey xxx stts samples_[%d].pts_ = %u => %f\n", s, pts, ((float)pts / 30000));//xxxxxxxxxxx /30000 bad science!
         ++s;
         pts += sample_duration;
       }
@@ -2499,7 +2353,6 @@ fprintf(stderr,"tracey xxx stts samples_[%d].pts_ = %u => %f\n", s, pts, ((float
                    ctts_get_samples(ctts), trak->samples_size_);
             break;
           }
-//          fprintf(stderr,"tracey xxx ctts samples_[%d].cto_ = %u\n", s, sample_offset);
 
           trak->samples_[s].cto_ = sample_offset;
           ++s;
@@ -2529,8 +2382,6 @@ fprintf(stderr,"tracey xxx stts samples_[%d].pts_ = %u => %f\n", s, pts, ((float
         }
         trak->samples_[s].pos_ = pos;
         pos += trak->samples_[s].size_;
-
-//        fprintf(stderr,"tracey xxx trak samples_[%d].pos_ = %u\n", s, pos);
         ++s;
       }
     }

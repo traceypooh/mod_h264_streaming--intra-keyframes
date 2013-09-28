@@ -635,7 +635,6 @@ extern mp4_context_t* mp4_open(const char* filename, int64_t filesize,
         mp4_context_exit(mp4_context);
         return 0;
       }
-      fprintf(stderr, "traxey xxx parsed moov header\n");
       break;
     case FOURCC('m', 'o', 'o', 'f'):
       {
