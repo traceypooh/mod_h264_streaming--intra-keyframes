@@ -1,4 +1,4 @@
-mod_h264_streaming--intra-keyframes
+B1;2cmod_h264_streaming--intra-keyframes
 ===================================
 
 mod_h264_streaming patch for starting between keyframes
@@ -9,8 +9,12 @@ mod_h264_streaming-2.2.7/src/
 config.h is from parent dir, after initial config setup
 
 
+These 2 files have the minor changes to them for "fast forwarding" the unwanted beginning of the first GOP:
+  moov.c
+  output_mp4.c
 
-main.c  has been added, for cmd-line running/testing.
+
+main.c  has been added, only for cmd-line running/testing of mod_h264_streaming
 
 
 ### compile:
