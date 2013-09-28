@@ -254,23 +254,13 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   // In practice, IA videos seem to always have stts->entries_ == 1 8-)
   // That's the starting number / table setup.
   // The STTS atom will be rewritten by caller, expanding to more entries since we dropping durations!
-  unsigned int s=0, j=0;
+  unsigned int s=0, j=0, nRewritten=0;
   for(j = 0; j < stts->entries_; j++){ 
-    unsigned int i;
     unsigned int sample_count    = stts->table_[j].sample_count_;
     unsigned int sample_duration = stts->table_[j].sample_duration_;
+    unsigned int i=0;
     for(i = 0; i < sample_count; i++){
-      /* see mp4_io.h  (pts_/size_/pos_/cto_/is_ss_/is_smooth_ss_)
-struct samples_t
-{
-  uint64_t pts_;                // decoding/presentation time
-  unsigned int size_;           // size in bytes
-  uint64_t pos_;                // byte offset
-  unsigned int cto_;            // composition time offset
-
-  unsigned int is_ss_:1;        // sync sample
-  unsigned int is_smooth_ss_:1; // sync sample for smooth streaming
-      */
+      /* see mp4_io.h for samples_t (pts_/size_/pos_/cto_/is_ss_/is_smooth_ss_) */
       samples_t sample = trak->samples_[s];
       // NOTE: begin time-shifting at "start_sample" bec. mod_h264_streaming 
       // finds the keyframe (sample time) before the exact start time, and *then*
@@ -281,10 +271,14 @@ struct samples_t
         uint64_t pts2 = trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s);
         trak->samples_[s].pts_ = pts2;
         fprintf(stderr,"..gop() stts[%d] samples_[%d].cto_ = %lu, samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, sample.cto_, s, pts, ((float)pts / trak_time_scale), pts2, ((float)pts2 / trak_time_scale));
+        nRewritten++;
       }
       s++;
     }
   }
+
+  if (nRewritten)
+    fprintf(stderr, "\n\nNOTE: APPROXIMATELY %2.1f SECONDS GOT FAST-FORWARDED (CALCULATION USES ASSUMED 29.97 fps, YMMV)\n\n", nRewritten/29.97);
 }
 
 
