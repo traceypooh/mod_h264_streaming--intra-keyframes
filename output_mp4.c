@@ -278,7 +278,7 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   }
 
   if (nRewritten)
-    fprintf(stderr, "\n\nNOTE: APPROXIMATELY %2.1f SECONDS GOT FAST-FORWARDED (CALCULATION USES ASSUMED 29.97 fps, YMMV)\n\n", nRewritten/29.97);
+    fprintf(stderr, "\n\nNOTE: %u FRAMES GOT FAST-FORWARDED (APPROXIMATELY %2.1f SECONDS ASSUMING 29.97 fps, YMMV)\n\n", nRewritten, nRewritten/29.97);
 }
 
 
