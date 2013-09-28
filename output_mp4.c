@@ -251,15 +251,13 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   }
   
 
-  unsigned int s = 0;
-  unsigned int entries = stts->entries_;
-  unsigned int j;
-  
-  for(j = 0; j < entries; j++){
+  unsigned int s=0, j=0;
+  for(j = 0; j < stts->entries_; j++){
     unsigned int i;
-    unsigned int sample_count = stts->table_[j].sample_count_;
+    unsigned int sample_count    = stts->table_[j].sample_count_;
     unsigned int sample_duration = stts->table_[j].sample_duration_;
     for(i = 0; i < sample_count; i++){
+      samples_t sample = trak->samples_[s]; //see mp4_io.h  (pts_/size_/pos_/cto_/is_ss_/is_smooth_ss_)
       uint64_t pts = trak->samples_[s].pts_;
       // NOTE: begin time-shifting at "start_sample" bec. mod_h264_streaming 
       // finds the keyframe (sample time) before the exact start time, and *then*
@@ -363,7 +361,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     struct stsc_t* stsc = trak->mdia_->minf_->stbl_->stsc_;
     if(stsc != NULL)
     {
-      fprintf(stderr,"..gop() ignoring STSC\n");
+      fprintf(stderr,"..gop() ignoring STSC, chunks size:%d\n", trak->chunks_size_);
       unsigned int i;
 
       for(i = 0; i != trak->chunks_size_; ++i)
@@ -439,8 +437,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
   // process sync samples:
   if(trak->mdia_->minf_->stbl_->stss_)
   {
-    fprintf(stderr,"..gop() ignoring STSS\n");
-
+    fprintf(stderr,"..gop() ignoring STSS (just keyframe list, unchanged, so OK)\n");
     struct stss_t* stss = trak->mdia_->minf_->stbl_->stss_;
     unsigned int entries = 0;
     unsigned int stss_start;
@@ -468,8 +465,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     struct stsz_t* stsz = trak->mdia_->minf_->stbl_->stsz_;
     if(stsz != NULL)
     {
-      fprintf(stderr,"..gop() ignoring STSZ\n");
-            
+      fprintf(stderr,"..gop() ignoring STSZ; but the size field contains the size, in *bytes* for each sample, so OK\n");
       if(stsz->sample_size_ == 0)
       {
         unsigned int entries = 0;
