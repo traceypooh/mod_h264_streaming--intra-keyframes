@@ -221,7 +221,7 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   struct stbl_t* stbl = trak->mdia_->minf_->stbl_;
 
   if (!trak->mdia_->minf_->stbl_->stts_){
-    fprintf(stderr, "NO STTS\n");
+    fprintf(stderr, "NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK 8-( \n");
     return;
   }
   
@@ -243,11 +243,12 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   
 
   if (stbl->stss_) {
+    // has sync samples atom
     stss_t *stss = stbl->stss_; // list of KEYFRAMES.   see stss_read() for where this came from!
     fprintf(stderr,"last sample %u\n", stss->sample_numbers_[stss->entries_-1]);
   }
   else{
-    fprintf(stderr, "NO STSS\n");
+    fprintf(stderr, "warning: no stss\n");
   }
   
 
@@ -324,30 +325,6 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
              stts_get_samples(stts), end - start);
     }
   }
-
-
-  if (0) { // [tracey xxx
-    fprintf(stderr,"tracey xxx hiiiiiiiiiiiiiiiii start:%u end:%u \n", start, end);
-    struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
-    unsigned int s = 0;
-    unsigned int entries = stts->entries_;
-    unsigned int j;
-    for(j = 0; j < entries; j++){
-      unsigned int i;
-      unsigned int sample_count = stts->table_[j].sample_count_;
-      unsigned int sample_duration = stts->table_[j].sample_duration_;
-      fprintf(stderr,"tracey stts[%d] sample_count[%u] sample_duration[%u]\n", j, sample_count, sample_duration);
-
-      for(i = 0; i < sample_count; i++)
-      {
-        uint64_t pts = trak->samples_[s].pts_;
-        fprintf(stderr,"tracey stts[%d] samples_[%d].pts_ = %lu => %f\n", j, s, pts, ((float)pts / 30000));//xxxxxxxxxxx /30000 bad science!
-        s++;
-      }
-    }
-  }; // tracey xxx]
-
-
 
 
   // ctts = [entries * [sample_count, sample_offset]
