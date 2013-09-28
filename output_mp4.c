@@ -235,7 +235,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
           //pts2 = (s < 125 ? 0 : pts); //xxxxxxxxxxxxxxxxxxxxxxxx
           if (pts2 != pts)
             trak->samples_[s].pts_ = pts2;
-          fprintf(stderr,"tracey stts[%d] samples_[%d].pts_ = %u => %f  REWRITING TO %u => %f\n", j, s, pts, ((float)pts / 30000), pts2, ((float)pts2 / 30000));//xxxxxxxxxxx /30000 bad science!
+          fprintf(stderr,"tracey stts[%d] samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, pts, ((float)pts / 30000), pts2, ((float)pts2 / 30000));//xxxxxxxxxxx /30000 bad science!
           s++;
         }
       }
@@ -300,7 +300,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
       for(i = 0; i < sample_count; i++)
       {
         uint64_t pts = trak->samples_[s].pts_;
-        fprintf(stderr,"tracey stts[%d] samples_[%d].pts_ = %u => %f\n", j, s, pts, ((float)pts / 30000));//xxxxxxxxxxx /30000 bad science!
+        fprintf(stderr,"tracey stts[%d] samples_[%d].pts_ = %lu => %f\n", j, s, pts, ((float)pts / 30000));//xxxxxxxxxxx /30000 bad science!
         s++;
       }
     }

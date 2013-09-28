@@ -10,8 +10,6 @@
 #include <string.h>
 #include <math.h>
 
-FILE *err=NULL;         // global
-FILE *out=NULL;         // global
 
 #include "mp4_io.h"
 #include "output_bucket.h"
@@ -20,7 +18,7 @@ FILE *out=NULL;         // global
 #include "moov.h"
 #include <sys/stat.h>
 
-// cd ~/INSTALL/mod_h264_streaming-2.2.7/src;  gcc -DHAVE_CONFIG_H  -I. -I..  -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -I/usr/include/apr-1.0 -I/usr/include/apr-1.0 -DBUILDING_H264_STREAMING -g  *.c   /usr/lib/libaprutil-1.so.0    /usr/lib/libapr-1.so.0  /usr/lib/apache2/mpm-prefork/apache2 && line && a.out
+// gcc -DHAVE_CONFIG_H  -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -DBUILDING_H264_STREAMING -g  *.c   /usr/lib/libaprutil-1.so.0    /usr/lib/libapr-1.so.0  /usr/lib/apache2/mpm-prefork/apache2
 
 int main(int argc, char *argv[])
 {
@@ -42,10 +40,7 @@ int main(int argc, char *argv[])
   fout = fopen("out.mp4","wb");//xxx
   
   
-  out=stdout;
-  err=stderr;
-   
-  fprintf(out,"hi %s\n",filename);
+  fprintf(stderr,"opening file: %s\n",filename);
 
   stat(filename, &st);
   filesize = st.st_size;
@@ -89,12 +84,6 @@ int main(int argc, char *argv[])
 
   
   // split the movie
-  unsigned int trak_sample_start[MAX_TRACKS];
-  unsigned int trak_sample_end[MAX_TRACKS];
-  struct bucket_t *buckets = 0; // BUCKET_TYPE_MEMORY (0) or BUCKET_TYPE_FILE (1)
-  struct mp4_split_options_t *options = calloc(1,sizeof(mp4_split_options_t));
-  options->start = start;
-  options->end = end;
 /*
 struct mp4_split_options_t
 {
@@ -113,6 +102,12 @@ struct mp4_split_options_t
   int seconds;
   uint64_t* byte_offsets;
 */
+  struct mp4_split_options_t *options = calloc(1,sizeof(mp4_split_options_t));
+  struct bucket_t *buckets=0;//AKA NULL
+  unsigned int trak_sample_start[MAX_TRACKS];
+  unsigned int trak_sample_end[MAX_TRACKS];
+  options->start = start;
+  options->end = end;
   
   int result = mp4_split(mpc, trak_sample_start, trak_sample_end, options);
 
@@ -129,24 +124,24 @@ struct mp4_split_options_t
       do{
         switch(bucket->type_){
         case BUCKET_TYPE_MEMORY:
-          fprintf(err, "BUCKET_TYPE_MEMORY WRITING %ld BYTES\n", bucket->size_);
+          fprintf(stderr, "BUCKET_TYPE_MEMORY WRITING %ld BYTES\n", bucket->size_);
           fwrite(bucket->buf_, 1, bucket->size_, fout);
           content_length += bucket->size_;
           bucket = bucket->next_;
           break;
 
         case BUCKET_TYPE_FILE:
-          fprintf(err, "BUCKET_TYPE_FILE WRITING %ld BYTES..\n", bucket->size_);
+          fprintf(stderr, "BUCKET_TYPE_FILE WRITING %ld BYTES..\n", bucket->size_);
           int numToRW = bucket->size_;
 
           if (numToRW > 0  &&  fseeko(fin, bucket->offset_, SEEK_SET) == 0){
-            fprintf(err, "  [seeked infile to %ld]", bucket->offset_);
+            fprintf(stderr, "  [seeked infile to %ld]", bucket->offset_);
             
             while (numToRW > 0){
               int rw = BUFFYLEN;
               if (numToRW < BUFFYLEN) rw = numToRW;
               
-              fprintf(err, "  %d..", rw);
+              fprintf(stderr, "  %d..", rw);
               fread (buffy, 1, rw, fin );
               fwrite(buffy, 1, rw, fout);
               
@@ -154,7 +149,7 @@ struct mp4_split_options_t
             }
           }
           // fwrite(bucket->offset_, 1, bucket->size_, fout);
-          fprintf(err, "\nBUCKET_TYPE_FILE WROTE %ld BYTES\n", bucket->size_);
+          fprintf(stderr, "\nBUCKET_TYPE_FILE WROTE %ld BYTES\n", bucket->size_);
           content_length += bucket->size_;
           bucket = bucket->next_;
           break;
