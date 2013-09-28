@@ -219,14 +219,13 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
                                                 unsigned int start_sample)
 {
   struct stbl_t* stbl = trak->mdia_->minf_->stbl_;
-  stss_t *stss = stbl->stss_; // list of KEYFRAMES.   see stss_read() for where this came from!
 
-  if (!stbl->stss_) {
-    fprintf(stderr, "NO STSS\n");
-    return; //xxx ever not true for IA mp4??  guess do nothing when so...
+  if (!trak->mdia_->minf_->stbl_->stts_){
+    fprintf(stderr, "NO STTS\n");
+    return;
   }
-
   
+    
 
   // find the sample frame location of the exact desired time we wanted to 
   // start at (regardless of keyframes!)
@@ -238,27 +237,30 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
 
 
   fprintf(stderr, "moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
-  fprintf(stderr,"trak_fast_forward_first_partial_gop() start: %fs;  sample start exact time:%u;  sample keyframe just before:%u;  last sample %u\n", 
-          options->start, start_exact_time_sample, start_sample,
-          stss->sample_numbers_[stss->entries_-1]);
-
-
-
+  fprintf(stderr,"trak_fast_forward_first_partial_gop() start: %fs;  sample start exact time:%u;  sample keyframe just before:%u\n", 
+          options->start, start_exact_time_sample, start_sample);
 
   
+
+  if (stbl->stss_) {
+    stss_t *stss = stbl->stss_; // list of KEYFRAMES.   see stss_read() for where this came from!
+    fprintf(stderr,"last sample %u\n", stss->sample_numbers_[stss->entries_-1]);
+  }
+  else{
+    fprintf(stderr, "NO STSS\n");
+  }
   
-  
+
   struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
   unsigned int s = 0;
   unsigned int entries = stts->entries_;
   unsigned int j;
+  
   for(j = 0; j < entries; j++){
     unsigned int i;
     unsigned int sample_count = stts->table_[j].sample_count_;
     unsigned int sample_duration = stts->table_[j].sample_duration_;
-    fprintf(stderr," %d samples VS %d samples\n", stss->entries_, sample_count);
-    for(i = 0; i < sample_count; i++)
-    {
+    for(i = 0; i < sample_count; i++){
       uint64_t pts = trak->samples_[s].pts_;
       // NOTE: begin time-shifting at "start_sample" bec. mod_h264_streaming 
       // finds the keyframe (sample time) before the exact start time, and *then*
@@ -272,8 +274,6 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
       s++;
     }
   }
-
-  fprintf(stderr,"xxx sample?  %u\n", s);
 }
 
 
