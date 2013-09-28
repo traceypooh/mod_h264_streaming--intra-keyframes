@@ -396,7 +396,6 @@ extern int mp4_split(struct mp4_context_t* mp4_context,
     // adjust sample to keyframe
     result = get_aligned_start_and_end(mp4_context, start, end,
                                        trak_sample_start, trak_sample_end);
-
     {
       // now we need to find the audio track and RESET *its* trak_sample_start
       // time to the exact start time we want, regardless of keyframes
@@ -413,8 +412,6 @@ extern int mp4_split(struct mp4_context_t* mp4_context,
         }
       }
     }
-
-    
   }
 
   return result;
