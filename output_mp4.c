@@ -342,7 +342,6 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     struct ctts_t* ctts = trak->mdia_->minf_->stbl_->ctts_;
     if(ctts)
     {
-      fprintf(stderr,"..gop() ignoring CTTS\n");
       unsigned int entries = 0;
       unsigned int s = start;
 
@@ -375,7 +374,6 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     struct stsc_t* stsc = trak->mdia_->minf_->stbl_->stsc_;
     if(stsc != NULL)
     {
-      fprintf(stderr,"..gop() ignoring STSC, chunks size:%d\n", trak->chunks_size_);
       unsigned int i;
 
       for(i = 0; i != trak->chunks_size_; ++i)
@@ -451,7 +449,6 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
   // process sync samples:
   if(trak->mdia_->minf_->stbl_->stss_)
   {
-    fprintf(stderr,"..gop() ignoring STSS (just keyframe list, unchanged, so OK)\n");
     struct stss_t* stss = trak->mdia_->minf_->stbl_->stss_;
     unsigned int entries = 0;
     unsigned int stss_start;
@@ -479,7 +476,6 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     struct stsz_t* stsz = trak->mdia_->minf_->stbl_->stsz_;
     if(stsz != NULL)
     {
-      fprintf(stderr,"..gop() ignoring STSZ; but the size field contains the size, in *bytes* for each sample, so OK\n");
       if(stsz->sample_size_ == 0)
       {
         unsigned int entries = 0;
