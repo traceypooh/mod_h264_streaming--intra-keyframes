@@ -221,7 +221,7 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   struct stbl_t* stbl = trak->mdia_->minf_->stbl_;
 
   if (!trak->mdia_->minf_->stbl_->stts_){
-    fprintf(stderr, "NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK 8-( \n");
+    fprintf(stderr, "..gop() NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK 8-( \n");
     return;
   }
   
@@ -236,19 +236,19 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
                                                          moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
 
 
-  fprintf(stderr, "moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
   fprintf(stderr,"trak_fast_forward_first_partial_gop() start: %fs;  sample start exact time:%u;  sample keyframe just before:%u\n", 
           options->start, start_exact_time_sample, start_sample);
+  fprintf(stderr, "..gop() moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
 
   
 
   if (stbl->stss_) {
     // has sync samples atom
     stss_t *stss = stbl->stss_; // list of KEYFRAMES.   see stss_read() for where this came from!
-    fprintf(stderr,"last sample %u\n", stss->sample_numbers_[stss->entries_-1]);
+    fprintf(stderr,"..gop() last sample %u\n", stss->sample_numbers_[stss->entries_-1]);
   }
   else{
-    fprintf(stderr, "warning: no stss\n");
+    fprintf(stderr, "..gop() warning: no stss\n");
   }
   
 
@@ -270,7 +270,7 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
       uint64_t pts2 = (s >= start_sample  &&  s < start_exact_time_sample ? trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s) : pts);
       if (pts2 != pts){
         trak->samples_[s].pts_ = pts2;
-        fprintf(stderr,"tracey stts[%d] samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, pts, ((float)pts / 30000), pts2, ((float)pts2 / 30000));//xxxxxxxxxxx /30000 bad science!
+        fprintf(stderr,"..gop() stts[%d] samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, pts, ((float)pts / 30000), pts2, ((float)pts2 / 30000));//xxxxxxxxxxx /30000 bad science!
       }
       s++;
     }
@@ -332,7 +332,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     struct ctts_t* ctts = trak->mdia_->minf_->stbl_->ctts_;
     if(ctts)
     {
-      fprintf(stderr,"tracey xxx CTTS\n");
+      fprintf(stderr,"..gop() ignoring CTTS\n");
       unsigned int entries = 0;
       unsigned int s = start;
 
@@ -365,7 +365,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     struct stsc_t* stsc = trak->mdia_->minf_->stbl_->stsc_;
     if(stsc != NULL)
     {
-      fprintf(stderr,"tracey xxx STSC\n");
+      fprintf(stderr,"..gop() ignoring STSC\n");
       unsigned int i;
 
       for(i = 0; i != trak->chunks_size_; ++i)
@@ -441,7 +441,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
   // process sync samples:
   if(trak->mdia_->minf_->stbl_->stss_)
   {
-    fprintf(stderr,"tracey xxx STSS\n");
+    fprintf(stderr,"..gop() ignoring STSS\n");
 
     struct stss_t* stss = trak->mdia_->minf_->stbl_->stss_;
     unsigned int entries = 0;
@@ -470,7 +470,7 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     struct stsz_t* stsz = trak->mdia_->minf_->stbl_->stsz_;
     if(stsz != NULL)
     {
-      fprintf(stderr,"tracey xxx STSZ\n");
+      fprintf(stderr,"..gop() ignoring STSZ\n");
             
       if(stsz->sample_size_ == 0)
       {
