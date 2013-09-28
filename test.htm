@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="/jw/6/jwplayer.js"></script>
+
+  <script type="text/javascript">
+  jwplayer.key="sZbikYlI/xtW0U/3Tw1DOdjC1EahhtUCJF5KggVdqDY=";
+
+  function go()
+  {
+    // parse ending lines
+    window.lines = (document.getElementsByTagName("pre")[0]).innerHTML.split("\n");
+    if (typeof(console.log(lines))=='function')
+      console.log(lines);
+
+    var playelm={}
+    var cfg={playlist:[],width:640,height:480};
+    for (var i=0; i<lines.length; i++){
+      if (lines[i].match(/\.srt/i)){
+        if (!playelm.captions)
+          playelm={captions:[]};
+        playelm.captions.push({file:lines[i],label:lines[i]});
+      }
+      else if (lines[i].match(/[a-z]/)){
+        playelm.file = lines[i]+'?x='+Math.random(0,1)+'&ignore=x.mp4';//for flash
+        playelm.type = 'mp4';
+        playelm.duration = 5;
+      }
+    }
+    cfg.playlist.push(playelm);
+
+    // pick one:
+    cfg.primary="flash";
+    //cfg.primary="html5";
+
+    jwplayer("v").setup(cfg);
+  }
+</script>
+</head>
+<body onload="go()">
+<div id="v"></div>
+<h3>sources used:</h3>
+
+<pre>
+out.mp4
