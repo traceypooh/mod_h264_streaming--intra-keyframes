@@ -21,3 +21,9 @@ gcc -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/
 
 ### a nice way to test/compare packets:
 for i in vid out; do ffprobe -print_format compact -show_frames -show_entries frame=media_type,pict_type,pkt_pts_time,width,height $i.mp4 >| $i.txt; line; done; ciff *.txt
+
+
+
+### notes mostly for me, for configuring inital download/untar:
+
+./configure --with-apxs=/usr/bin/apxs2   
