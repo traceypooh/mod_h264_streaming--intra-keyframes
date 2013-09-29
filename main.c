@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 
   char *filename="/home/tracey/public_html/_/x/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4";
   int start=468;  // KEYFRAMES at  465.221  and  471.561 
+  start=1207;
 
   
   if (argc > 1) filename = argv[1];
