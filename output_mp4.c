@@ -219,11 +219,14 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
                                                 unsigned int start_sample)
 {
   struct stbl_t* stbl = trak->mdia_->minf_->stbl_;
+  
 
   if (!trak->mdia_->minf_->stbl_->stts_){
-    fprintf(stderr, "..gop() NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK 8-( \n");
+    //xxxx MP4_WARNING("FFGOP: NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK\n");
     return;
   }
+  // NOTE: STTS atom = "time to sample" atom, which is what we use
+  //  (and STSS atom = "sync samples" atom, which is list of keyframes)
   struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
   
     
@@ -235,31 +238,22 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   float trak_time_scale = trak->mdia_->mdhd_->timescale_;
   unsigned int start_exact_time_sample = stts_get_sample(stts, moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
 
-  fprintf(stderr,"trak_fast_forward_first_partial_gop() start: %fs;  sample start exact time:%u;  sample keyframe just before:%u\n", 
-          options->start, start_exact_time_sample, start_sample);
-  fprintf(stderr, "..gop() moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
+  if (start_exact_time_sample == start_sample)
+    return; // starting at wanted time already, nothing to do!
+
+  MP4_INFO("FFGOP: start: %fs;  sample start exact time:%u;  sample keyframe just before:%u\n", 
+           options->start, start_exact_time_sample, start_sample);
+  MP4_INFO("FFGOP: moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
 
   
-
-  if (stbl->stss_) {
-    // has sync samples atom
-    stss_t *stss = stbl->stss_; // list of KEYFRAMES.   see stss_read() for where this came from!
-    fprintf(stderr,"..gop() last sample %u\n", stss->sample_numbers_[stss->entries_-1]);
-  }
-  else {
-    fprintf(stderr, "..gop() warning: no stss\n");
-  }
   
 
   // In practice, IA videos seem to always have stts->entries_ == 1 8-)
   // That's the starting number / table setup.
   // The STTS atom will be rewritten by caller, expanding to more entries since we dropping durations!
-  unsigned int s=0, j=0, nRewritten=0;
-  for(j = 0; j < stts->entries_; j++){ 
-    unsigned int sample_count    = stts->table_[j].sample_count_;
-    unsigned int sample_duration = stts->table_[j].sample_duration_;
-    unsigned int i=0;
-    for(i = 0; i < sample_count; i++){
+  unsigned int s=0, i=0, j=0, nRewritten=0;
+  for (j=0; j < stts->entries_; j++){ 
+    for (i=0; i < stts->table_[j].sample_count_; i++){
       /* see mp4_io.h for samples_t (pts_/size_/pos_/cto_/is_ss_/is_smooth_ss_) */
       samples_t sample = trak->samples_[s];
       // NOTE: begin time-shifting at "start_sample" bec. mod_h264_streaming 
@@ -267,18 +261,22 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
       // decrements by one.  so those samples "go out the door" -- and thus we
       // need to rewrite them, too
       if (s >= start_sample  &&  s < start_exact_time_sample){
+        // let's change current PTS to something fractionally *just* less than
+        // the PTS of the first frame we want to see fully.  each frame we dont want
+        // to see is 1 fraction earlier PTS than the next frame PTS.
         uint64_t pts  = sample.pts_;
         uint64_t pts2 = trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s);
         trak->samples_[s].pts_ = pts2;
-        fprintf(stderr,"..gop() stts[%d] samples_[%d].cto_ = %lu, samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, sample.cto_, s, pts, ((float)pts / trak_time_scale), pts2, ((float)pts2 / trak_time_scale));
+        MP4_INFO("FFGOP: stts[%d] samples_[%d].cto_ = %lu, samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, sample.cto_, s, pts, ((float)pts / trak_time_scale), pts2, ((float)pts2 / trak_time_scale));
         nRewritten++;
       }
       s++;
     }
   }
 
-  if (nRewritten)
-    fprintf(stderr, "\n\nNOTE: %u FRAMES GOT FAST-FORWARDED (APPROXIMATELY %2.1f SECONDS ASSUMING 29.97 fps, YMMV)\n\n", nRewritten, nRewritten/29.97);
+  if (nRewritten){
+    MP4_WARNING("FFGOP: ==============>  %u FRAMES GOT FAST-FORWARDED (APPROXIMATELY %2.1f SECONDS ASSUMING 29.97 fps, YMMV)\n\n", nRewritten, nRewritten/29.97);
+  }
 }
 
 

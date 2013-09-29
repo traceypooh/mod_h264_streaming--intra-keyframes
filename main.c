@@ -41,14 +41,15 @@ int main(int argc, char *argv[])
   fout = fopen("xport.mp4","wb");//xxx
   
   
-  fprintf(stderr,"opening file: %s\n",filename);
-  fprintf(stderr,"start: %d, end: %d\n",start,end);
+  mp4_open_flags flags = MP4_OPEN_ALL;
 
   stat(filename, &st);
   filesize = st.st_size;
   
-  mp4_open_flags flags = MP4_OPEN_ALL;
-  mp4_context_t* mpc = mp4_open(filename, filesize, flags, verbose);
+  mp4_context_t* mp4_context = mp4_open(filename, filesize, flags, verbose);
+  MP4_INFO("opened file: %s\n",filename);
+  MP4_INFO("start: %d, end: %d\n",start,end);
+
 
 
 
@@ -79,10 +80,10 @@ struct mp4_split_options_t
   options->start = start;
   options->end = end;
   
-  int result = mp4_split(mpc, trak_sample_start, trak_sample_end, options);
+  int result = mp4_split(mp4_context, trak_sample_start, trak_sample_end, options);
 
   // parses mp4 to where we want and sets up buckets
-  output_mp4(mpc, trak_sample_start, trak_sample_end, &buckets, options);
+  output_mp4(mp4_context, trak_sample_start, trak_sample_end, &buckets, options);
 
   {
     int content_length = 0;
@@ -94,24 +95,24 @@ struct mp4_split_options_t
       do{
         switch(bucket->type_){
         case BUCKET_TYPE_MEMORY:
-          fprintf(stderr, "BUCKET_TYPE_MEMORY WRITING %ld BYTES\n", bucket->size_);
+          MP4_INFO("BUCKET_TYPE_MEMORY WRITING %ld BYTES\n", bucket->size_);
           fwrite(bucket->buf_, 1, bucket->size_, fout);
           content_length += bucket->size_;
           bucket = bucket->next_;
           break;
 
         case BUCKET_TYPE_FILE:
-          fprintf(stderr, "BUCKET_TYPE_FILE WRITING %ld BYTES..\n", bucket->size_);
+          MP4_INFO("BUCKET_TYPE_FILE WRITING %ld BYTES..\n", bucket->size_);
           int numToRW = bucket->size_;
 
           if (numToRW > 0  &&  fseeko(fin, bucket->offset_, SEEK_SET) == 0){
-            fprintf(stderr, "  [seeked infile to %ld]", bucket->offset_);
+            MP4_INFO("  seeked infile to %ld\n", bucket->offset_);
             
             while (numToRW > 0){
               int rw = BUFFYLEN;
               if (numToRW < BUFFYLEN) rw = numToRW;
               
-              fprintf(stderr, "  %d..", rw);
+              MP4_INFO("  r/w %dB\n", rw);
               fread (buffy, 1, rw, fin );
               fwrite(buffy, 1, rw, fout);
               
@@ -119,7 +120,7 @@ struct mp4_split_options_t
             }
           }
           // fwrite(bucket->offset_, 1, bucket->size_, fout);
-          fprintf(stderr, "\nBUCKET_TYPE_FILE WROTE %ld BYTES\n", bucket->size_);
+          MP4_INFO("BUCKET_TYPE_FILE WROTE %ld BYTES\n", bucket->size_);
           content_length += bucket->size_;
           bucket = bucket->next_;
           break;
@@ -129,7 +130,7 @@ struct mp4_split_options_t
     }
   }
   
-  mp4_close(mpc);
+  mp4_close(mp4_context);
   if (fout) fclose(fout);
   if (fin ) fclose(fin );
   return 0;
