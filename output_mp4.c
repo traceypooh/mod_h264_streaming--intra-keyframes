@@ -213,7 +213,7 @@ static void compress_moov(struct mp4_context_t* mp4_context,
 
 
 
-static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_context, 
+static void trak_fast_forward_first_partial_GOP(struct mp4_context_t const* mp4_context, 
                                                 struct mp4_split_options_t* options, 
                                                 struct trak_t *trak, 
                                                 unsigned int start_sample)
@@ -254,20 +254,21 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   unsigned int s=0, i=0, j=0, nRewritten=0;
   for (j=0; j < stts->entries_; j++){ 
     for (i=0; i < stts->table_[j].sample_count_; i++){
-      /* see mp4_io.h for samples_t (pts_/size_/pos_/cto_/is_ss_/is_smooth_ss_) */
-      samples_t sample = trak->samples_[s];
       // NOTE: begin time-shifting at "start_sample" bec. mod_h264_streaming 
       // finds the keyframe (sample time) before the exact start time, and *then*
       // decrements by one.  so those samples "go out the door" -- and thus we
       // need to rewrite them, too
       if (s >= start_sample  &&  s < start_exact_time_sample){
+        /* see mp4_io.h for samples_t (pts_/size_/pos_/cto_/is_ss_/is_smooth_ss_) */
+        samples_t sample = trak->samples_[s];
         // let's change current PTS to something fractionally *just* less than
         // the PTS of the first frame we want to see fully.  each frame we dont want
         // to see is 1 fraction earlier PTS than the next frame PTS.
         uint64_t pts  = sample.pts_;
         uint64_t pts2 = trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s);
         trak->samples_[s].pts_ = pts2;
-        MP4_INFO("FFGOP: stts[%d] samples_[%d].cto_ = %lu, samples_[%d].pts_ = %lu => %f  REWRITING TO %lu => %f\n", j, s, sample.cto_, s, pts, ((float)pts / trak_time_scale), pts2, ((float)pts2 / trak_time_scale));
+        MP4_INFO("FFGOP: stts[%d] samples_[%d].pts_ = %lu (%0.3fsec)  REWRITING TO %lu (%0.3fsec)\n", 
+                 j, s, pts, ((float)pts / trak_time_scale), pts2, ((float)pts2 / trak_time_scale));
         nRewritten++;
       }
       s++;
@@ -566,7 +567,7 @@ extern int output_mp4(struct mp4_context_t* mp4_context,
     unsigned int end_sample = trak_sample_end[i];
 
 
-    trak_fast_forward_first_partial_gop(mp4_context, options, trak, start_sample);
+    trak_fast_forward_first_partial_GOP(mp4_context, options, trak, start_sample);
 
     trak_update_index(mp4_context, trak, start_sample, end_sample);
 

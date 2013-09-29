@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
   float start    = (argc > 2 ? atof(argv[2]) : 1207);
   float end      = (argc > 3 ? atoi(argv[3]) : start + 30);
 
-  FILE *fin  = fopen(filename, "rb");//xxx
+  FILE *fin  = fopen(filename,   "rb");//xxx
   FILE *fout = fopen("xport.mp4","wb");//xxx
   
   int verbose=9;
@@ -24,28 +24,8 @@ int main(int argc, char *argv[])
   MP4_INFO("opened file: %s\n",filename);
   MP4_INFO("start: %d, end: %d\n",start,end);
 
-
-
   
   // split the movie
-/*
-struct mp4_split_options_t
-{
-  int client_is_flash;
-  float start;
-  uint64_t start_integer;
-  float end;
-  int adaptive;
-  int fragments;
-  enum output_format_t output_format;
-  enum input_format_t input_format;
-  char const* fragment_type;
-  unsigned int fragment_bitrate;
-  unsigned int fragment_track_id;
-  uint64_t fragment_start;
-  int seconds;
-  uint64_t* byte_offsets;
-*/
   struct mp4_split_options_t *options = calloc(1,sizeof(mp4_split_options_t));
   struct bucket_t *buckets=0;//AKA NULL
   unsigned int trak_sample_start[MAX_TRACKS];
