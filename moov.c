@@ -402,10 +402,9 @@ extern int mp4_split(struct mp4_context_t* mp4_context,
       int i=0;
       for(i=0; i != moov->tracks_; ++i){
         struct trak_t* trak = moov->traks_[i];
-        long trak_time_scale = trak->mdia_->mdhd_->timescale_;
-
         if (trak->mdia_->hdlr_->handler_type_ == (('s'<<24) | ('o'<<16) | ('u'<<8) | 'n')){
           // the FOURCC is soun -- can I get a "d'?!
+          long trak_time_scale = trak->mdia_->mdhd_->timescale_;
           struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
           unsigned int start_exact_time_sample = stts_get_sample(stts, moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
           MP4_WARNING("FFGOP: AUDIO REWRITING trak_sample_start[%i]: %u => %u\n", i, trak_sample_start[i], start_exact_time_sample);

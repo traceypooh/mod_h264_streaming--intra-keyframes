@@ -1,56 +1,28 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <memory.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <inttypes.h>
-#include <stdbool.h>
-#include <string.h>
-#include <math.h>
 
+#include <stdlib.h>
 
 #include "mp4_io.h"
 #include "output_bucket.h"
 #include "output_mp4.h"
 #include "mp4_process.h"
 #include "moov.h"
-#include <sys/stat.h>
 
 // gcc -DHAVE_CONFIG_H  -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0 -I/usr/include/openssl -I/usr/include/xmltok -pthread -I/usr/include/apache2 -DBUILDING_H264_STREAMING -g  *.c   /usr/lib/libaprutil-1.so.0    /usr/lib/libapr-1.so.0  /usr/lib/apache2/mpm-prefork/apache2
 
 int main(int argc, char *argv[])
 {
-  struct stat st;
-  int64_t filesize;
+  char *filename = (argc > 1 ? argv[1] : "/home/tracey/public_html/_/x/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4");
+  float start    = (argc > 2 ? atof(argv[2]) : 1207);
+  float end      = (argc > 3 ? atoi(argv[3]) : start + 30);
+
+  FILE *fin  = fopen(filename, "rb");//xxx
+  FILE *fout = fopen("xport.mp4","wb");//xxx
+  
   int verbose=9;
-  FILE *fin=NULL,*fout=NULL;
-  int end=0;
-
-  char *filename="/home/tracey/public_html/_/x/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4";
-  int start=468;  // KEYFRAMES at  465.221  and  471.561 
-  start=1207;
-
-  
-  if (argc > 1) filename = argv[1];
-  if (argc > 2) start = atoi(argv[2]);
-  if (argc > 3) end   = atoi(argv[3]); else end = start + 30;
-  
-
-  fin  = fopen(filename, "rb");//xxx
-  fout = fopen("xport.mp4","wb");//xxx
-  
-  
   mp4_open_flags flags = MP4_OPEN_ALL;
-
-  stat(filename, &st);
-  filesize = st.st_size;
-  
-  mp4_context_t* mp4_context = mp4_open(filename, filesize, flags, verbose);
+  mp4_context_t* mp4_context = mp4_open(filename, get_filesize(filename), flags, verbose);
   MP4_INFO("opened file: %s\n",filename);
   MP4_INFO("start: %d, end: %d\n",start,end);
-
 
 
 
