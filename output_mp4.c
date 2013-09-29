@@ -222,7 +222,9 @@ static void trak_fast_forward_first_partial_gop(struct mp4_context_t const* mp4_
   
 
   if (!trak->mdia_->minf_->stbl_->stts_){
-    //xxxx MP4_WARNING("FFGOP: NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK\n");
+    {
+      MP4_WARNING("FFGOP: NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK\n");
+    }
     return;
   }
   // NOTE: STTS atom = "time to sample" atom, which is what we use
