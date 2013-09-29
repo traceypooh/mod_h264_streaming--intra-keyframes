@@ -266,6 +266,7 @@ static void trak_fast_forward_first_partial_GOP(struct mp4_context_t const* mp4_
         // to see is 1 fraction earlier PTS than the next frame PTS.
         uint64_t pts  = sample.pts_;
         uint64_t pts2 = trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s);
+        //uint64_t pts2 = trak->samples_[start_exact_time_sample].pts_ + (s <= (start_sample+1) ? -2 : -1);
         trak->samples_[s].pts_ = pts2;
         MP4_INFO("FFGOP: stts[%d] samples_[%d].pts_ = %lu (%0.3fsec)  REWRITING TO %lu (%0.3fsec)\n", 
                  j, s, pts, ((float)pts / trak_time_scale), pts2, ((float)pts2 / trak_time_scale));

@@ -15,14 +15,14 @@ int main(int argc, char *argv[])
   float start    = (argc > 2 ? atof(argv[2]) : 1207);
   float end      = (argc > 3 ? atoi(argv[3]) : start + 30);
 
-  FILE *fin  = fopen(filename,   "rb");//xxx
+  FILE *fin  = fopen(filename,   "rb");
   FILE *fout = fopen("xport.mp4","wb");//xxx
   
   int verbose=9;
   mp4_open_flags flags = MP4_OPEN_ALL;
   mp4_context_t* mp4_context = mp4_open(filename, get_filesize(filename), flags, verbose);
   MP4_INFO("opened file: %s\n",filename);
-  MP4_INFO("start: %d, end: %d\n",start,end);
+  MP4_INFO("start: %0.2f, end: %0.2f\n",start,end);
 
   
   // split the movie
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     char buffy[BUFFYLEN+1];
     
     struct bucket_t* bucket = buckets;
-    if(bucket){
+    if (bucket){
       do{
         switch(bucket->type_){
         case BUCKET_TYPE_MEMORY:
