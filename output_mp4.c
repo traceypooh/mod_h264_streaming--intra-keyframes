@@ -218,9 +218,6 @@ static void trak_fast_forward_first_partial_GOP(struct mp4_context_t const* mp4_
                                                 struct trak_t *trak, 
                                                 unsigned int start_sample)
 {
-  struct stbl_t* stbl = trak->mdia_->minf_->stbl_;
-  
-
   if (!trak->mdia_->minf_->stbl_->stts_){
     MP4_WARNING("FFGOP: NO STTS FOR THIS TRACK -- CANNOT ADJUST THIS TRACK\n","");
     return;

@@ -405,7 +405,7 @@ extern int mp4_split(struct mp4_context_t* mp4_context,
     if (options->exact){
       // now we need to find the audio track and RESET *its* trak_sample_start
       // time to the exact start time we want, regardless of keyframes
-      int i=0;
+      unsigned int i=0;
       for(i=0; i != moov->tracks_; ++i){
         struct trak_t* trak = moov->traks_[i];
         if (trak->mdia_->hdlr_->handler_type_ == FOURCC('s','o','u','n')){
