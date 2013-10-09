@@ -19,6 +19,8 @@ main.c  has been added, only for cmd-line running/testing of mod_h264_streaming
 
 ### compile:
 
+sudo apt-get install   apache2-prefork-dev  libaprutil1-dev;
+
 gcc  -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0   -I/usr/include/apache2 -DBUILDING_H264_STREAMING -g  *.c   /usr/lib/libaprutil-1.so.0    /usr/lib/libapr-1.so.0  /usr/lib/apache2/mpm-prefork/apache2
 
 
