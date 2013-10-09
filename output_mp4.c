@@ -287,13 +287,10 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
 
   // stts = [entries * [sample_count, sample_duration]
   {
-
-
     struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
 
     unsigned int entries = 0;
     unsigned int s = start;
-    
 
     while(s != end)
     {
@@ -326,7 +323,6 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
              stts_get_samples(stts), end - start);
     }
   }
-
 
   // ctts = [entries * [sample_count, sample_offset]
   {
@@ -481,7 +477,6 @@ static void trak_update_index(struct mp4_context_t const* mp4_context,
     }
   }
 }
-
 
 
 extern int output_mp4(struct mp4_context_t* mp4_context,
