@@ -568,7 +568,8 @@ extern int output_mp4(struct mp4_context_t* mp4_context,
     unsigned int end_sample = trak_sample_end[i];
 
 
-    trak_fast_forward_first_partial_GOP(mp4_context, options, trak, start_sample);
+    if (options->exact)
+      trak_fast_forward_first_partial_GOP(mp4_context, options, trak, start_sample);
 
     trak_update_index(mp4_context, trak, start_sample, end_sample);
 

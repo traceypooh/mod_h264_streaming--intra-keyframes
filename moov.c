@@ -210,6 +210,7 @@ mp4_split_options_t* mp4_split_options_init()
   options->fragment_start = 0;
   options->seconds = 0;
   options->byte_offsets = 0;
+  options->exact = 0;
 
   return options;
 }
@@ -271,6 +272,10 @@ int mp4_split_options_set(struct mp4_split_options_t* options,
             if(!strncmp("end", key, key_len))
             {
               options->end = (float)(strtod(valz, NULL));
+            } else
+            if(!strncmp("exact", key, key_len))
+            {
+              options->exact = 1;
             } else
             if(!strncmp("vbegin", key, key_len))
             {
@@ -396,7 +401,8 @@ extern int mp4_split(struct mp4_context_t* mp4_context,
     // adjust sample to keyframe
     result = get_aligned_start_and_end(mp4_context, start, end,
                                        trak_sample_start, trak_sample_end);
-    {
+
+    if (options->exact){
       // now we need to find the audio track and RESET *its* trak_sample_start
       // time to the exact start time we want, regardless of keyframes
       int i=0;

@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
   unsigned int trak_sample_end[MAX_TRACKS];
   options->start = start;
   options->end = end;
+  options->exact = 1;
   
   int result = mp4_split(mp4_context, trak_sample_start, trak_sample_end, options);
 

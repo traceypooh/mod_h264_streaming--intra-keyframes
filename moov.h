@@ -72,6 +72,7 @@ struct mp4_split_options_t
   uint64_t fragment_start;
   int seconds;
   uint64_t* byte_offsets;
+  int exact;
 };
 typedef struct mp4_split_options_t mp4_split_options_t;
 
