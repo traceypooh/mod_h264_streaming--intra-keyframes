@@ -1,0 +1,390 @@
+mp4_io.c.469: (info) Atom(ftyp,32)
+mp4_io.c.469: (info) Atom(moov,1577604)
+mp4_reader.c.41: (info) Atom(mvhd,108)
+mp4_reader.c.41: (info) Atom(trak,448649)
+mp4_reader.c.41: (info) Atom(tkhd,92)
+mp4_reader.c.41: (info) Atom(edts,36)
+mp4_reader.c.41: (info) Atom(elst,28)
+mp4_reader.c.41: (info) Atom(mdia,448513)
+mp4_reader.c.41: (info) Atom(mdhd,32)
+mp4_reader.c.41: (info) Atom(hdlr,45)
+mp4_reader.c.41: (info) Atom(minf,448428)
+mp4_reader.c.41: (info) Atom(vmhd,20)
+mp4_reader.c.41: (info) Atom(dinf,36)
+mp4_reader.c.41: (info) Atom(dref,28)
+mp4_reader.c.41: (info) Atom(stbl,448364)
+mp4_reader.c.41: (info) Atom(stsd,148)
+mp4_reader.c.41: (info) Atom(stts,24)
+mp4_reader.c.41: (info) Atom(stss,2044)
+mp4_reader.c.41: (info) Atom(stsc,40)
+mp4_reader.c.41: (info) Atom(stsz,223096)
+mp4_reader.c.41: (info) Atom(stco,223004)
+mp4_reader.c.41: (info) Atom(avcC,46)
+mp4_reader.c.41: (info) Atom(trak,1128563)
+mp4_reader.c.41: (info) Atom(tkhd,92)
+mp4_reader.c.41: (info) Atom(edts,36)
+mp4_reader.c.41: (info) Atom(elst,28)
+mp4_reader.c.41: (info) Atom(mdia,1128427)
+mp4_reader.c.41: (info) Atom(mdhd,32)
+mp4_reader.c.41: (info) Atom(hdlr,45)
+mp4_reader.c.41: (info) Atom(minf,1128342)
+mp4_reader.c.41: (info) Atom(smhd,16)
+mp4_reader.c.41: (info) Atom(dinf,36)
+mp4_reader.c.41: (info) Atom(dref,28)
+mp4_reader.c.41: (info) Atom(stbl,1128282)
+mp4_reader.c.41: (info) Atom(stsd,106)
+mp4_reader.c.41: (info) Atom(stts,32)
+mp4_reader.c.41: (info) Atom(stsc,584680)
+mp4_reader.c.41: (info) Atom(stsz,320452)
+mp4_reader.c.41: (info) Atom(stco,223004)
+mp4_reader.c.652: (info) Sample Entry:
+mp4_reader.c.653: (info)   data_reference_index=1
+mp4_reader.c.654: (info)   version=0
+mp4_reader.c.655: (info)   revision=0
+mp4_reader.c.656: (info)   vendor=00000000
+mp4_reader.c.657: (info)   channel_count=2
+mp4_reader.c.658: (info)   sample_size=16
+mp4_reader.c.659: (info)   compression_id=0
+mp4_reader.c.660: (info)   packet_size=0
+mp4_reader.c.661: (info)   samplerate_hi=44100
+mp4_reader.c.662: (info)   samplerate_lo=0
+mp4_reader.c.41: (info) Atom(esds,54)
+mp4_reader.c.396: (info) Elementary Stream Descriptor: len=37
+mp4_reader.c.411: (info) MPEG: tag=4 len=23
+mp4_reader.c.435: (info) Decoder Configuration Descriptor:
+mp4_reader.c.436: (info)   object_type_id=$40
+mp4_reader.c.437: (info)   stream_type=21
+mp4_reader.c.438: (info)   buffer_size_db=0
+mp4_reader.c.439: (info)   max_bitrate=128000
+mp4_reader.c.440: (info)   avg_bitrate=126684
+mp4_reader.c.469: (info) MPEG: tag=5 len=5
+mp4_reader.c.473: (info) Decoder Specific Info Descriptor: len=5
+mp4_reader.c.41: (info) Atom(udta,276)
+mp4_io.c.469: (info) Atom(free,8)
+mp4_io.c.469: (info) Atom(mdat,191518370)
+main.c.24: (info) opened file: /home/tracey/public_html/_/x/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4
+main.c.25: (info) start: 1207.00, end: 1237.00
+moov.c.136: (info) start=36174 (trac time)
+moov.c.138: (info) start=1207.01 (seconds)
+moov.c.141: (info) start=35934 (zero based keyframe)
+moov.c.145: (info) start=1198997 (moov time)
+moov.c.146: (info) start=1199.00 (seconds)
+moov.c.159: (info) end=37073 (trac time)
+moov.c.161: (info) end=1237.00 (seconds)
+moov.c.171: (info) end=36965 (zero based keyframe)
+moov.c.176: (info) end=1233398 (moov time)
+moov.c.177: (info) end=1233.40 (seconds)
+moov.c.136: (info) start=51637 (trac time)
+moov.c.138: (info) start=1199.01 (seconds)
+moov.c.141: (info) start=51637 (zero based keyframe)
+moov.c.145: (info) start=1199008 (moov time)
+moov.c.146: (info) start=1199.01 (seconds)
+moov.c.159: (info) end=53119 (trac time)
+moov.c.161: (info) end=1233.42 (seconds)
+moov.c.171: (info) end=53119 (zero based keyframe)
+moov.c.176: (info) end=1233420 (moov time)
+moov.c.177: (info) end=1233.42 (seconds)
+moov.c.182: (info) start=1199008
+moov.c.183: (info) end=1233420
+moov.c.415: (warning) FFGOP: AUDIO REWRITING trak_sample_start[1]: 51637 => 51982
+output_mp4.c.245: (info) FFGOP: start: 1207.000000s;  sample start exact time:36174;  sample keyframe just before:35934
+output_mp4.c.246: (info) FFGOP: moov_time_scale = 1000.000000, trak_time_scale = 30000.000000
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35934].pts_ = 35969934 (1198.998sec)  REWRITING TO 36209934 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35935].pts_ = 35970935 (1199.031sec)  REWRITING TO 36209935 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35936].pts_ = 35971936 (1199.065sec)  REWRITING TO 36209936 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35937].pts_ = 35972937 (1199.098sec)  REWRITING TO 36209937 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35938].pts_ = 35973938 (1199.131sec)  REWRITING TO 36209938 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35939].pts_ = 35974939 (1199.165sec)  REWRITING TO 36209939 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35940].pts_ = 35975940 (1199.198sec)  REWRITING TO 36209940 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35941].pts_ = 35976941 (1199.231sec)  REWRITING TO 36209941 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35942].pts_ = 35977942 (1199.265sec)  REWRITING TO 36209942 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35943].pts_ = 35978943 (1199.298sec)  REWRITING TO 36209943 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35944].pts_ = 35979944 (1199.331sec)  REWRITING TO 36209944 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35945].pts_ = 35980945 (1199.365sec)  REWRITING TO 36209945 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35946].pts_ = 35981946 (1199.398sec)  REWRITING TO 36209946 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35947].pts_ = 35982947 (1199.432sec)  REWRITING TO 36209947 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35948].pts_ = 35983948 (1199.465sec)  REWRITING TO 36209948 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35949].pts_ = 35984949 (1199.498sec)  REWRITING TO 36209949 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35950].pts_ = 35985950 (1199.532sec)  REWRITING TO 36209950 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35951].pts_ = 35986951 (1199.565sec)  REWRITING TO 36209951 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35952].pts_ = 35987952 (1199.598sec)  REWRITING TO 36209952 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35953].pts_ = 35988953 (1199.632sec)  REWRITING TO 36209953 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35954].pts_ = 35989954 (1199.665sec)  REWRITING TO 36209954 (1206.998sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35955].pts_ = 35990955 (1199.698sec)  REWRITING TO 36209955 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35956].pts_ = 35991956 (1199.732sec)  REWRITING TO 36209956 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35957].pts_ = 35992957 (1199.765sec)  REWRITING TO 36209957 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35958].pts_ = 35993958 (1199.799sec)  REWRITING TO 36209958 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35959].pts_ = 35994959 (1199.832sec)  REWRITING TO 36209959 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35960].pts_ = 35995960 (1199.865sec)  REWRITING TO 36209960 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35961].pts_ = 35996961 (1199.899sec)  REWRITING TO 36209961 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35962].pts_ = 35997962 (1199.932sec)  REWRITING TO 36209962 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35963].pts_ = 35998963 (1199.965sec)  REWRITING TO 36209963 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35964].pts_ = 35999964 (1199.999sec)  REWRITING TO 36209964 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35965].pts_ = 36000965 (1200.032sec)  REWRITING TO 36209965 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35966].pts_ = 36001966 (1200.066sec)  REWRITING TO 36209966 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35967].pts_ = 36002967 (1200.099sec)  REWRITING TO 36209967 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35968].pts_ = 36003968 (1200.132sec)  REWRITING TO 36209968 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35969].pts_ = 36004969 (1200.166sec)  REWRITING TO 36209969 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35970].pts_ = 36005970 (1200.199sec)  REWRITING TO 36209970 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35971].pts_ = 36006971 (1200.232sec)  REWRITING TO 36209971 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35972].pts_ = 36007972 (1200.266sec)  REWRITING TO 36209972 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35973].pts_ = 36008973 (1200.299sec)  REWRITING TO 36209973 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35974].pts_ = 36009974 (1200.333sec)  REWRITING TO 36209974 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35975].pts_ = 36010975 (1200.366sec)  REWRITING TO 36209975 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35976].pts_ = 36011976 (1200.399sec)  REWRITING TO 36209976 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35977].pts_ = 36012977 (1200.432sec)  REWRITING TO 36209977 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35978].pts_ = 36013978 (1200.466sec)  REWRITING TO 36209978 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35979].pts_ = 36014979 (1200.499sec)  REWRITING TO 36209979 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35980].pts_ = 36015980 (1200.533sec)  REWRITING TO 36209980 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35981].pts_ = 36016981 (1200.566sec)  REWRITING TO 36209981 (1206.999sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35982].pts_ = 36017982 (1200.599sec)  REWRITING TO 36209982 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35983].pts_ = 36018983 (1200.633sec)  REWRITING TO 36209983 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35984].pts_ = 36019984 (1200.666sec)  REWRITING TO 36209984 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35985].pts_ = 36020985 (1200.699sec)  REWRITING TO 36209985 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35986].pts_ = 36021986 (1200.733sec)  REWRITING TO 36209986 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35987].pts_ = 36022987 (1200.766sec)  REWRITING TO 36209987 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35988].pts_ = 36023988 (1200.800sec)  REWRITING TO 36209988 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35989].pts_ = 36024989 (1200.833sec)  REWRITING TO 36209989 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35990].pts_ = 36025990 (1200.866sec)  REWRITING TO 36209990 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35991].pts_ = 36026991 (1200.900sec)  REWRITING TO 36209991 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35992].pts_ = 36027992 (1200.933sec)  REWRITING TO 36209992 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35993].pts_ = 36028993 (1200.966sec)  REWRITING TO 36209993 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35994].pts_ = 36029994 (1201.000sec)  REWRITING TO 36209994 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35995].pts_ = 36030995 (1201.033sec)  REWRITING TO 36209995 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35996].pts_ = 36031996 (1201.067sec)  REWRITING TO 36209996 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35997].pts_ = 36032997 (1201.100sec)  REWRITING TO 36209997 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35998].pts_ = 36033998 (1201.133sec)  REWRITING TO 36209998 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[35999].pts_ = 36034999 (1201.167sec)  REWRITING TO 36209999 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36000].pts_ = 36036000 (1201.200sec)  REWRITING TO 36210000 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36001].pts_ = 36037001 (1201.233sec)  REWRITING TO 36210001 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36002].pts_ = 36038002 (1201.267sec)  REWRITING TO 36210002 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36003].pts_ = 36039003 (1201.300sec)  REWRITING TO 36210003 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36004].pts_ = 36040004 (1201.333sec)  REWRITING TO 36210004 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36005].pts_ = 36041005 (1201.367sec)  REWRITING TO 36210005 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36006].pts_ = 36042006 (1201.400sec)  REWRITING TO 36210006 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36007].pts_ = 36043007 (1201.434sec)  REWRITING TO 36210007 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36008].pts_ = 36044008 (1201.467sec)  REWRITING TO 36210008 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36009].pts_ = 36045009 (1201.500sec)  REWRITING TO 36210009 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36010].pts_ = 36046010 (1201.534sec)  REWRITING TO 36210010 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36011].pts_ = 36047011 (1201.567sec)  REWRITING TO 36210011 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36012].pts_ = 36048012 (1201.600sec)  REWRITING TO 36210012 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36013].pts_ = 36049013 (1201.634sec)  REWRITING TO 36210013 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36014].pts_ = 36050014 (1201.667sec)  REWRITING TO 36210014 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36015].pts_ = 36051015 (1201.701sec)  REWRITING TO 36210015 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36016].pts_ = 36052016 (1201.734sec)  REWRITING TO 36210016 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36017].pts_ = 36053017 (1201.767sec)  REWRITING TO 36210017 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36018].pts_ = 36054018 (1201.801sec)  REWRITING TO 36210018 (1207.000sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36019].pts_ = 36055019 (1201.834sec)  REWRITING TO 36210019 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36020].pts_ = 36056020 (1201.867sec)  REWRITING TO 36210020 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36021].pts_ = 36057021 (1201.901sec)  REWRITING TO 36210021 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36022].pts_ = 36058022 (1201.934sec)  REWRITING TO 36210022 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36023].pts_ = 36059023 (1201.967sec)  REWRITING TO 36210023 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36024].pts_ = 36060024 (1202.001sec)  REWRITING TO 36210024 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36025].pts_ = 36061025 (1202.034sec)  REWRITING TO 36210025 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36026].pts_ = 36062026 (1202.068sec)  REWRITING TO 36210026 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36027].pts_ = 36063027 (1202.101sec)  REWRITING TO 36210027 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36028].pts_ = 36064028 (1202.134sec)  REWRITING TO 36210028 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36029].pts_ = 36065029 (1202.168sec)  REWRITING TO 36210029 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36030].pts_ = 36066030 (1202.201sec)  REWRITING TO 36210030 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36031].pts_ = 36067031 (1202.234sec)  REWRITING TO 36210031 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36032].pts_ = 36068032 (1202.268sec)  REWRITING TO 36210032 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36033].pts_ = 36069033 (1202.301sec)  REWRITING TO 36210033 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36034].pts_ = 36070034 (1202.334sec)  REWRITING TO 36210034 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36035].pts_ = 36071035 (1202.368sec)  REWRITING TO 36210035 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36036].pts_ = 36072036 (1202.401sec)  REWRITING TO 36210036 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36037].pts_ = 36073037 (1202.435sec)  REWRITING TO 36210037 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36038].pts_ = 36074038 (1202.468sec)  REWRITING TO 36210038 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36039].pts_ = 36075039 (1202.501sec)  REWRITING TO 36210039 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36040].pts_ = 36076040 (1202.535sec)  REWRITING TO 36210040 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36041].pts_ = 36077041 (1202.568sec)  REWRITING TO 36210041 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36042].pts_ = 36078042 (1202.601sec)  REWRITING TO 36210042 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36043].pts_ = 36079043 (1202.635sec)  REWRITING TO 36210043 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36044].pts_ = 36080044 (1202.668sec)  REWRITING TO 36210044 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36045].pts_ = 36081045 (1202.701sec)  REWRITING TO 36210045 (1207.001sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36046].pts_ = 36082046 (1202.735sec)  REWRITING TO 36210046 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36047].pts_ = 36083047 (1202.768sec)  REWRITING TO 36210047 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36048].pts_ = 36084048 (1202.802sec)  REWRITING TO 36210048 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36049].pts_ = 36085049 (1202.835sec)  REWRITING TO 36210049 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36050].pts_ = 36086050 (1202.868sec)  REWRITING TO 36210050 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36051].pts_ = 36087051 (1202.902sec)  REWRITING TO 36210051 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36052].pts_ = 36088052 (1202.935sec)  REWRITING TO 36210052 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36053].pts_ = 36089053 (1202.968sec)  REWRITING TO 36210053 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36054].pts_ = 36090054 (1203.002sec)  REWRITING TO 36210054 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36055].pts_ = 36091055 (1203.035sec)  REWRITING TO 36210055 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36056].pts_ = 36092056 (1203.068sec)  REWRITING TO 36210056 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36057].pts_ = 36093057 (1203.102sec)  REWRITING TO 36210057 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36058].pts_ = 36094058 (1203.135sec)  REWRITING TO 36210058 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36059].pts_ = 36095059 (1203.169sec)  REWRITING TO 36210059 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36060].pts_ = 36096060 (1203.202sec)  REWRITING TO 36210060 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36061].pts_ = 36097061 (1203.235sec)  REWRITING TO 36210061 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36062].pts_ = 36098062 (1203.269sec)  REWRITING TO 36210062 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36063].pts_ = 36099063 (1203.302sec)  REWRITING TO 36210063 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36064].pts_ = 36100064 (1203.335sec)  REWRITING TO 36210064 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36065].pts_ = 36101065 (1203.369sec)  REWRITING TO 36210065 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36066].pts_ = 36102066 (1203.402sec)  REWRITING TO 36210066 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36067].pts_ = 36103067 (1203.436sec)  REWRITING TO 36210067 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36068].pts_ = 36104068 (1203.469sec)  REWRITING TO 36210068 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36069].pts_ = 36105069 (1203.502sec)  REWRITING TO 36210069 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36070].pts_ = 36106070 (1203.536sec)  REWRITING TO 36210070 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36071].pts_ = 36107071 (1203.569sec)  REWRITING TO 36210071 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36072].pts_ = 36108072 (1203.602sec)  REWRITING TO 36210072 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36073].pts_ = 36109073 (1203.636sec)  REWRITING TO 36210073 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36074].pts_ = 36110074 (1203.669sec)  REWRITING TO 36210074 (1207.002sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36075].pts_ = 36111075 (1203.703sec)  REWRITING TO 36210075 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36076].pts_ = 36112076 (1203.736sec)  REWRITING TO 36210076 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36077].pts_ = 36113077 (1203.769sec)  REWRITING TO 36210077 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36078].pts_ = 36114078 (1203.803sec)  REWRITING TO 36210078 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36079].pts_ = 36115079 (1203.836sec)  REWRITING TO 36210079 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36080].pts_ = 36116080 (1203.869sec)  REWRITING TO 36210080 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36081].pts_ = 36117081 (1203.903sec)  REWRITING TO 36210081 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36082].pts_ = 36118082 (1203.936sec)  REWRITING TO 36210082 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36083].pts_ = 36119083 (1203.969sec)  REWRITING TO 36210083 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36084].pts_ = 36120084 (1204.003sec)  REWRITING TO 36210084 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36085].pts_ = 36121085 (1204.036sec)  REWRITING TO 36210085 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36086].pts_ = 36122086 (1204.070sec)  REWRITING TO 36210086 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36087].pts_ = 36123087 (1204.103sec)  REWRITING TO 36210087 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36088].pts_ = 36124088 (1204.136sec)  REWRITING TO 36210088 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36089].pts_ = 36125089 (1204.170sec)  REWRITING TO 36210089 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36090].pts_ = 36126090 (1204.203sec)  REWRITING TO 36210090 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36091].pts_ = 36127091 (1204.236sec)  REWRITING TO 36210091 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36092].pts_ = 36128092 (1204.270sec)  REWRITING TO 36210092 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36093].pts_ = 36129093 (1204.303sec)  REWRITING TO 36210093 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36094].pts_ = 36130094 (1204.337sec)  REWRITING TO 36210094 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36095].pts_ = 36131095 (1204.370sec)  REWRITING TO 36210095 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36096].pts_ = 36132096 (1204.403sec)  REWRITING TO 36210096 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36097].pts_ = 36133097 (1204.437sec)  REWRITING TO 36210097 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36098].pts_ = 36134098 (1204.470sec)  REWRITING TO 36210098 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36099].pts_ = 36135099 (1204.503sec)  REWRITING TO 36210099 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36100].pts_ = 36136100 (1204.537sec)  REWRITING TO 36210100 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36101].pts_ = 36137101 (1204.570sec)  REWRITING TO 36210101 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36102].pts_ = 36138102 (1204.604sec)  REWRITING TO 36210102 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36103].pts_ = 36139103 (1204.637sec)  REWRITING TO 36210103 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36104].pts_ = 36140104 (1204.670sec)  REWRITING TO 36210104 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36105].pts_ = 36141105 (1204.703sec)  REWRITING TO 36210105 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36106].pts_ = 36142106 (1204.737sec)  REWRITING TO 36210106 (1207.003sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36107].pts_ = 36143107 (1204.770sec)  REWRITING TO 36210107 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36108].pts_ = 36144108 (1204.804sec)  REWRITING TO 36210108 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36109].pts_ = 36145109 (1204.837sec)  REWRITING TO 36210109 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36110].pts_ = 36146110 (1204.870sec)  REWRITING TO 36210110 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36111].pts_ = 36147111 (1204.904sec)  REWRITING TO 36210111 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36112].pts_ = 36148112 (1204.937sec)  REWRITING TO 36210112 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36113].pts_ = 36149113 (1204.970sec)  REWRITING TO 36210113 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36114].pts_ = 36150114 (1205.004sec)  REWRITING TO 36210114 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36115].pts_ = 36151115 (1205.037sec)  REWRITING TO 36210115 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36116].pts_ = 36152116 (1205.071sec)  REWRITING TO 36210116 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36117].pts_ = 36153117 (1205.104sec)  REWRITING TO 36210117 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36118].pts_ = 36154118 (1205.137sec)  REWRITING TO 36210118 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36119].pts_ = 36155119 (1205.171sec)  REWRITING TO 36210119 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36120].pts_ = 36156120 (1205.204sec)  REWRITING TO 36210120 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36121].pts_ = 36157121 (1205.237sec)  REWRITING TO 36210121 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36122].pts_ = 36158122 (1205.271sec)  REWRITING TO 36210122 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36123].pts_ = 36159123 (1205.304sec)  REWRITING TO 36210123 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36124].pts_ = 36160124 (1205.338sec)  REWRITING TO 36210124 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36125].pts_ = 36161125 (1205.371sec)  REWRITING TO 36210125 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36126].pts_ = 36162126 (1205.404sec)  REWRITING TO 36210126 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36127].pts_ = 36163127 (1205.438sec)  REWRITING TO 36210127 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36128].pts_ = 36164128 (1205.471sec)  REWRITING TO 36210128 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36129].pts_ = 36165129 (1205.504sec)  REWRITING TO 36210129 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36130].pts_ = 36166130 (1205.538sec)  REWRITING TO 36210130 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36131].pts_ = 36167131 (1205.571sec)  REWRITING TO 36210131 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36132].pts_ = 36168132 (1205.604sec)  REWRITING TO 36210132 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36133].pts_ = 36169133 (1205.638sec)  REWRITING TO 36210133 (1207.004sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36134].pts_ = 36170134 (1205.671sec)  REWRITING TO 36210134 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36135].pts_ = 36171135 (1205.705sec)  REWRITING TO 36210135 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36136].pts_ = 36172136 (1205.738sec)  REWRITING TO 36210136 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36137].pts_ = 36173137 (1205.771sec)  REWRITING TO 36210137 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36138].pts_ = 36174138 (1205.805sec)  REWRITING TO 36210138 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36139].pts_ = 36175139 (1205.838sec)  REWRITING TO 36210139 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36140].pts_ = 36176140 (1205.871sec)  REWRITING TO 36210140 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36141].pts_ = 36177141 (1205.905sec)  REWRITING TO 36210141 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36142].pts_ = 36178142 (1205.938sec)  REWRITING TO 36210142 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36143].pts_ = 36179143 (1205.971sec)  REWRITING TO 36210143 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36144].pts_ = 36180144 (1206.005sec)  REWRITING TO 36210144 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36145].pts_ = 36181145 (1206.038sec)  REWRITING TO 36210145 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36146].pts_ = 36182146 (1206.071sec)  REWRITING TO 36210146 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36147].pts_ = 36183147 (1206.105sec)  REWRITING TO 36210147 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36148].pts_ = 36184148 (1206.138sec)  REWRITING TO 36210148 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36149].pts_ = 36185149 (1206.172sec)  REWRITING TO 36210149 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36150].pts_ = 36186150 (1206.205sec)  REWRITING TO 36210150 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36151].pts_ = 36187151 (1206.238sec)  REWRITING TO 36210151 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36152].pts_ = 36188152 (1206.272sec)  REWRITING TO 36210152 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36153].pts_ = 36189153 (1206.305sec)  REWRITING TO 36210153 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36154].pts_ = 36190154 (1206.338sec)  REWRITING TO 36210154 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36155].pts_ = 36191155 (1206.372sec)  REWRITING TO 36210155 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36156].pts_ = 36192156 (1206.405sec)  REWRITING TO 36210156 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36157].pts_ = 36193157 (1206.438sec)  REWRITING TO 36210157 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36158].pts_ = 36194158 (1206.472sec)  REWRITING TO 36210158 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36159].pts_ = 36195159 (1206.505sec)  REWRITING TO 36210159 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36160].pts_ = 36196160 (1206.539sec)  REWRITING TO 36210160 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36161].pts_ = 36197161 (1206.572sec)  REWRITING TO 36210161 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36162].pts_ = 36198162 (1206.605sec)  REWRITING TO 36210162 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36163].pts_ = 36199163 (1206.639sec)  REWRITING TO 36210163 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36164].pts_ = 36200164 (1206.672sec)  REWRITING TO 36210164 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36165].pts_ = 36201165 (1206.705sec)  REWRITING TO 36210165 (1207.005sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36166].pts_ = 36202166 (1206.739sec)  REWRITING TO 36210166 (1207.006sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36167].pts_ = 36203167 (1206.772sec)  REWRITING TO 36210167 (1207.006sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36168].pts_ = 36204168 (1206.806sec)  REWRITING TO 36210168 (1207.006sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36169].pts_ = 36205169 (1206.839sec)  REWRITING TO 36210169 (1207.006sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36170].pts_ = 36206170 (1206.872sec)  REWRITING TO 36210170 (1207.006sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36171].pts_ = 36207171 (1206.906sec)  REWRITING TO 36210171 (1207.006sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36172].pts_ = 36208172 (1206.939sec)  REWRITING TO 36210172 (1207.006sec)
+output_mp4.c.272: (info) FFGOP: stts[0] samples_[36173].pts_ = 36209173 (1206.972sec)  REWRITING TO 36210173 (1207.006sec)
+output_mp4.c.280: (warning) FFGOP: ==============>  240 FRAMES GOT FAST-FORWARDED (APPROXIMATELY 8.0 SECONDS ASSUMING 29.97 fps, YMMV)
+
+output_mp4.c.587: (info) Trak can skip 122595425 bytes
+output_mp4.c.594: (info) New endpos=127972808
+output_mp4.c.596: (info) Trak can skip 65123206 bytes at end
+output_mp4.c.609: (info) trak: new_duration=26401
+output_mp4.c.587: (info) Trak can skip 123408254 bytes
+output_mp4.c.594: (info) New endpos=127972445
+output_mp4.c.596: (info) Trak can skip 65123206 bytes at end
+output_mp4.c.609: (info) trak: new_duration=26401
+output_mp4.c.622: (info) moov: new_duration=26.40 seconds
+output_mp4.c.627: (info) moov: writing header
+output_mp4.c.635: (info) shifting offsets by -124147305
+output_mp4.c.655: (info) mdat_size=191518370 end_offset=127972808
+output_mp4.c.661: (info) mdat_bucket(124173069, 3799739)
+main.c.52: (info) BUCKET_TYPE_MEMORY WRITING 74 BYTES
+main.c.52: (info) BUCKET_TYPE_MEMORY WRITING 25690 BYTES
+main.c.52: (info) BUCKET_TYPE_MEMORY WRITING 8 BYTES
+main.c.59: (info) BUCKET_TYPE_FILE WRITING 3799731 BYTES..
+main.c.63: (info)   seeked infile to 124173077
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 100000B
+main.c.69: (info)   r/w 99731B
+main.c.77: (info) BUCKET_TYPE_FILE WROTE 3799731 BYTES
