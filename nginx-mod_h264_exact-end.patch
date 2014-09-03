@@ -8,7 +8,7 @@
 # and we know all archive.org .mp4 derivatives do NOT use b-frames at all 
 # (only I and P frames).
 #    -Tracey Sep 2014
---- moov.c.Tracey       2013-11-21 20:38:30.994241654 -0800
+--- src/moov.c      2013-11-21 20:38:30.994241654 -0800
 +++ moov.c      2013-11-21 20:39:40.346242776 -0800
 @@ -166,7 +166,8 @@
          }
