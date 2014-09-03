@@ -1,0 +1,22 @@
+# Patch from the brilliant Peter Vajda of Stanford!
+# This parallels the "exact start" patch, but is *way* simpler/clever, kudos!
+# However, it is not compatible with mp4 files with b-frames since the end
+# could get cutoff/corrupted if the final b-frame needed the keyframe
+# at the end of a sequence of b-frames/i-frames (and the keyframe "bookend" is gone)
+# Thankfully, we are only using the "exact=1" flag to kick on 
+# "exact start" and (now) "exact end" for TV .mp4 files now at archive.org
+# and we know all archive.org .mp4 derivatives do NOT use b-frames at all 
+# (only I and P frames).
+#    -Tracey Sep 2014
+--- moov.c.Tracey       2013-11-21 20:38:30.994241654 -0800
++++ moov.c      2013-11-21 20:39:40.346242776 -0800
+@@ -166,7 +166,8 @@
+         }
+         else
+         {
+-          end = stbl_get_nearest_keyframe(stbl, end + 1) - 1;
++          // Do not need to jump to the nearest keyframe, exact ending works well
++          //end = stbl_get_nearest_keyframe(stbl, end + 1) - 1;
+         }
+         MP4_INFO("end=%u (zero based keyframe)\n", end);
+         trak_sample_end[i] = end;
