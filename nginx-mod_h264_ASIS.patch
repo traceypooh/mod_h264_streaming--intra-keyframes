@@ -1,0 +1,13 @@
+diff -U1 -r /tmp/ngx-h264-orig/src/ngx_http_streaming_module.c ./ngx_http_streaming_module.c
+--- /tmp/ngx-h264-orig/src/ngx_http_streaming_module.c	2010-01-09 20:32:24.000000000 +0000
++++ ./ngx_http_streaming_module.c	2013-10-09 02:45:56.045114193 +0000
+@@ -157,3 +157,3 @@
+   /* TODO: Win32 */
+-  if (r->zero_in_uri)
++  if (0)
+   {
+@@ -176,3 +176,3 @@
+ 
+-  last = ngx_http_map_uri_to_path(r, &path, &root, 0);
++ if (options->start<=0.0  &&  options->end<=0.0) return NGX_DECLINED; last = ngx_http_map_uri_to_path(r, &path, &root, 0);
+   if (last == NULL)
