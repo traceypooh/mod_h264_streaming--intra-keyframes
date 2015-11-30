@@ -620,6 +620,7 @@ extern int output_mp4(struct mp4_context_t* mp4_context,
 
   moov_write(moov, moov_data);
   moov_size = read_32(moov_data);
+  MP4_INFO("moov: new moov_size: %"PRId64"\n", moov_size);
 
   // add new moov size
   offset += moov_size;
