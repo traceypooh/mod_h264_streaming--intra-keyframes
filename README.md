@@ -20,9 +20,12 @@ main.c  has been added, only for cmd-line running/testing of mod_h264_streaming
 
 ### compile:
 
-sudo apt-get install  build-essential   apache2-dev  libaprutil1-dev;
+sudo apt-get install  build-aessential;
+gcc -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -DBUILDING_H264_STREAMING -g main.c moov.c mp4_io.c mp4_process.c mp4_reader.c mp4_writer.c output_bucket.c output_mp4.c
 
-gcc  -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0   -I/usr/include/apache2 -DBUILDING_H264_STREAMING -g  *.c   /usr/lib/*/libaprutil-1.so.0   /usr/lib/*/libapr-1.so.0  /usr/lib/apache2/mpm-prefork/apache2
+# to build with apache mod type hooks it's something more like this:
+#  sudo apt-get install   apache2-dev  libaprutil1-dev;
+# gcc  -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0   -I/usr/include/apache2 -DBUILDING_H264_STREAMING -g  *.c   /usr/lib/*/libaprutil-1.so.0   /usr/lib/*/libapr-1.so.0  /usr/lib/apache2/mpm-prefork/apache2
 
 
 
