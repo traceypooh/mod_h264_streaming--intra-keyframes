@@ -1,6 +1,8 @@
 mod_h264_streaming--intra-keyframes
 ===================================
 
+# Overview
+
 mod_h264_streaming patch for starting between keyframes
 
 *.c and *.h files from subdir for tar.gz release version of apache mod_h264_streaming
@@ -18,7 +20,7 @@ These 2 files have the minor changes to them for "fast forwarding" the unwanted 
 main.c  has been added, only for cmd-line running/testing of mod_h264_streaming
 
 
-### compile:
+# compile
 
 sudo apt-get install  build-aessential;
 gcc -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -DBUILDING_H264_STREAMING -g main.c moov.c mp4_io.c mp4_process.c mp4_reader.c mp4_writer.c output_bucket.c output_mp4.c
@@ -28,13 +30,12 @@ gcc -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -DB
  gcc  -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0   -I/usr/include/apache2 -DBUILDING_H264_STREAMING -g  *.c   /usr/lib/*/libaprutil-1.so.0   /usr/lib/*/libapr-1.so.0  /usr/lib/apache2/mpm-prefork/apache2
 )
 
-
-### a nice way to test/compare packets:
+## A nice way to test/compare packets:
 for i in vid out; do ffprobe -print_format compact -show_frames -show_entries frame=media_type,pict_type,pkt_pts_time,width,height $i.mp4 >| $i.txt; line; done; colordiff *.txt
 
-### RECENT UPDATES:
+# RECENT UPDATES:
 
-# hotfix to recent Chrome browser updates in early 2017.
+## hotfix to recent Chrome browser updates in early 2017.
 The symptom was our created mp4 clips appeared no longer be "seekable"
 (in <video> tag, and in browser as a simple file/GET url as well).
 The issue seems to be due to a recent change to use the ELST atom
