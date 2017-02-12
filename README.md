@@ -34,7 +34,7 @@ for i in vid out; do ffprobe -print_format compact -show_frames -show_entries fr
 
 ### RECENT UPDATES:
 
-hotfix to recent Chrome browser updates in early 2017.
+# hotfix to recent Chrome browser updates in early 2017.
 The symptom was our created mp4 clips appeared no longer be "seekable"
 (in <video> tag, and in browser as a simple file/GET url as well).
 The issue seems to be due to a recent change to use the ELST atom
