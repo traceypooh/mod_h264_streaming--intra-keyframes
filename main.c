@@ -7,7 +7,7 @@
 #include "mp4_process.h"
 #include "moov.h"
 
-// gcc -g -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -I/usr/include/apr-1.0   -I/usr/include/apache2 -DBUILDING_H264_STREAMING  *.c   /usr/lib/libaprutil-1.so.0 /usr/lib/libapr-1.so.0 /usr/lib/apache2/mpm-prefork/apache2
+// gcc -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -DBUILDING_H264_STREAMING -g main.c moov.c mp4_io.c mp4_process.c mp4_reader.c mp4_writer.c output_bucket.c output_mp4.c
 
 int main(int argc, char *argv[])
 {
@@ -15,16 +15,17 @@ int main(int argc, char *argv[])
   float start    = (argc > 2 ? atof(argv[2]) : 1207);
   float end      = (argc > 3 ? atoi(argv[3]) : start + 30);
 
+
   FILE *fin  = fopen(filename,   "rb");
   FILE *fout = fopen("xport.mp4","wb");//xxx
-  
+
   int verbose=9;
   mp4_open_flags flags = MP4_OPEN_ALL;
   mp4_context_t* mp4_context = mp4_open(filename, get_filesize(filename), flags, verbose);
   MP4_INFO("opened file: %s\n",filename);
   MP4_INFO("start: %0.2f, end: %0.2f\n",start,end);
 
-  
+
   // split the movie
   struct mp4_split_options_t *options = calloc(1,sizeof(mp4_split_options_t));
   struct bucket_t *buckets=0;//AKA NULL
@@ -32,8 +33,8 @@ int main(int argc, char *argv[])
   unsigned int trak_sample_end[MAX_TRACKS];
   options->start = start;
   options->end = end;
-  options->exact = 1;
-  
+  options->exact = (argc > 4 ? 0 : 1);
+
   int result = mp4_split(mp4_context, trak_sample_start, trak_sample_end, options);
 
   // parses mp4 to where we want and sets up buckets
@@ -43,7 +44,7 @@ int main(int argc, char *argv[])
     int content_length = 0;
     int BUFFYLEN = 100000; // ~100K to buffer in/out
     char buffy[BUFFYLEN+1];
-    
+
     struct bucket_t* bucket = buckets;
     if (bucket){
       do{
@@ -61,15 +62,15 @@ int main(int argc, char *argv[])
 
           if (numToRW > 0  &&  fseeko(fin, bucket->offset_, SEEK_SET) == 0){
             MP4_INFO("  seeked infile to %ld\n", bucket->offset_);
-            
+
             while (numToRW > 0){
               int rw = BUFFYLEN;
               if (numToRW < BUFFYLEN) rw = numToRW;
-              
+
               MP4_INFO("  r/w %dB\n", rw);
               fread (buffy, 1, rw, fin );
               fwrite(buffy, 1, rw, fout);
-              
+
               numToRW -= BUFFYLEN;
             }
           }
@@ -83,7 +84,7 @@ int main(int argc, char *argv[])
       buckets_exit(buckets);
     }
   }
-  
+
   mp4_close(mp4_context);
   if (fout) fclose(fout);
   if (fin ) fclose(fin );
