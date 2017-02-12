@@ -32,6 +32,24 @@ gcc -DHAVE_CONFIG_H -DLINUX=2 -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_REENTRANT -DB
 ### a nice way to test/compare packets:
 for i in vid out; do ffprobe -print_format compact -show_frames -show_entries frame=media_type,pict_type,pkt_pts_time,width,height $i.mp4 >| $i.txt; line; done; colordiff *.txt
 
+### RECENT UPDATES:
+
+hotfix to recent Chrome browser updates in early 2017.
+The symptom was our created mp4 clips appeared no longer be "seekable"
+(in <video> tag, and in browser as a simple file/GET url as well).
+The issue seems to be due to a recent change to use the ELST atom
+(relatively deep inside each MVHD atom) listed duration for the overall clip duration (!)
+
+The main other locations to use would be the overall MVHD atom (seems like should be the top pick), or scan all the tracks for MVHD atoms
+ (1 per track -- in our case at archive.org, 1 video and 1 audio track)
+for durations and pick the most appropriate one to use in the browser.
+
+ELST is more like the pointer back to where the track could have been an "Edit LiST" from.
+Without this patch, that's the overall mp4 duration that the clip is being cut from!
+
+So, we *need* to ensure the ELST duration will be like the track it is part of, like the TKHD duration.
+Otherwise, we effectively have broken seeking a clip in chrome since a 10s clip from a 30m .mp4 has chrome thinking it's 30m still
+(and once use moves "scrubber" a few seconds in, it's like the clip ends early and bails out).
 
 
 ### notes mostly for me, for configuring inital download/untar:
