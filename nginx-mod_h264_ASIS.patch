@@ -7,7 +7,7 @@ diff -U1 -r /tmp/ngx-h264-orig/src/ngx_http_streaming_module.c ./ngx_http_stream
 +  if (0)
    {
 @@ -176,3 +176,3 @@
- 
+
 -  last = ngx_http_map_uri_to_path(r, &path, &root, 0);
-+ if (options->start<=0.0  &&  options->end<=0.0) return NGX_DECLINED; last = ngx_http_map_uri_to_path(r, &path, &root, 0);
++ if (options->start<=0.0  &&  options->end<=0.0  ||  (options->start >= options->end)) return NGX_DECLINED; last = ngx_http_map_uri_to_path(r, &path, &root, 0);
    if (last == NULL)
