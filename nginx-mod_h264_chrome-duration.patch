@@ -1,0 +1,25 @@
+diff --git a/mp4_writer.c b/mp4_writer.c
+index 0296136..32b8efa 100644
+--- a/mp4_writer.c
++++ b/mp4_writer.c
+@@ -23,2 +23,4 @@
+ 
++int hack_duration=0; // terrible to use this global -- but we *need* to get ELST duration (with without this patch lists duration of the _original_ source fullsize clip) to be like the TKHD duration -- due to chrome update in early 2017.  chrome suddenly started using the _ELST_ duration as the overall clip duration (effectively breaking seeking a clip in chrome since a 10s clip from a 30m .mp4 has chrome thinking it's 30m still!)  -tracey Feb2017
++
+ static unsigned char* atom_writer_unknown(unknown_atom_t* atoms,
+@@ -90,2 +92,4 @@ static unsigned char* tkhd_write(void const* atom, unsigned char* buffer)
+ 
++  hack_duration = tkhd->duration_;
++
+   if(tkhd->version_ == 0)
+@@ -622,2 +626,3 @@ static unsigned char* elst_write(void const* atom, unsigned char* buffer)
+   {
++    if (hack_duration != 0) elst->table_[i].segment_duration_ = hack_duration;
+     if(elst->version_ == 0)
+@@ -635,2 +640,3 @@ static unsigned char* elst_write(void const* atom, unsigned char* buffer)
+   }
++  hack_duration = 0;
+ 
+@@ -1076,2 +1082 @@ extern uint32_t moof_write(struct moof_t* atom, unsigned char* buffer)
+ // End Of File
+-
