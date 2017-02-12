@@ -1,10 +1,10 @@
 diff -U1 src/moov.c ./moov.c
---- src/moov.c	2010-01-09 20:27:26.000000000 +0000
-+++ ./moov.c	2013-10-09 00:59:12.620632240 +0000
+--- moov.c-ORIG	2015-11-22 20:09:08.000000000 -0800
++++ moov.c	2017-02-11 20:40:17.000000000 -0800
 @@ -212,2 +212,3 @@
    options->byte_offsets = 0;
 +  options->exact = 0;
- 
+
 @@ -274,2 +275,6 @@
              } else
 +            if(!strncmp("exact", key, key_len))
@@ -12,7 +12,7 @@ diff -U1 src/moov.c ./moov.c
 +              options->exact = 1;
 +            } else
              if(!strncmp("vbegin", key, key_len))
-@@ -398,2 +403,19 @@
+@@ -398,2 +403,24 @@
                                         trak_sample_start, trak_sample_end);
 +
 +    if (options->exact){
@@ -26,6 +26,11 @@ diff -U1 src/moov.c ./moov.c
 +          long trak_time_scale = trak->mdia_->mdhd_->timescale_;
 +          struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
 +          unsigned int start_exact_time_sample = stts_get_sample(stts, moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
++          if (start_exact_time_sample >= trak_sample_end[i]){
++            // may be a source with truncated video -- or requested start past video end..
++            MP4_WARNING("FFGOP: AUDIO ISSUE - ENDS BEFORE WANTED START - WILL WRITE %u SAMPLES..\n", 0);
++            start_exact_time_sample = trak_sample_end[i];
++          }
 +          MP4_WARNING("FFGOP: AUDIO REWRITING trak_sample_start[%i]: %u => %u\n", i, trak_sample_start[i], start_exact_time_sample);
 +          trak_sample_start[i] = start_exact_time_sample;
 +        }
@@ -43,12 +48,12 @@ diff -U1 src/output_mp4.c ./output_mp4.c
 --- src/output_mp4.c	2009-11-24 14:05:13.000000000 +0000
 +++ ./output_mp4.c	2013-10-09 02:53:42.577294814 +0000
 @@ -213,2 +213,70 @@
- 
+
 +
 +
-+static void trak_fast_forward_first_partial_GOP(struct mp4_context_t const* mp4_context, 
-+                                                struct mp4_split_options_t* options, 
-+                                                struct trak_t *trak, 
++static void trak_fast_forward_first_partial_GOP(struct mp4_context_t const* mp4_context,
++                                                struct mp4_split_options_t* options,
++                                                struct trak_t *trak,
 +                                                unsigned int start_sample)
 +{
 +  if (!trak->mdia_->minf_->stbl_->stts_){
@@ -58,10 +63,10 @@ diff -U1 src/output_mp4.c ./output_mp4.c
 +  // NOTE: STTS atom = "time to sample" atom, which is what we use
 +  //  (and STSS atom = "sync samples" atom, which is list of keyframes)
 +  struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
-+  
-+    
 +
-+  // find the sample frame location of the exact desired time we wanted to 
++
++
++  // find the sample frame location of the exact desired time we wanted to
 +  // start at (regardless of keyframes!)
 +  struct moov_t* moov = mp4_context->moov;
 +  float moov_time_scale = moov->mvhd_->timescale_;
@@ -71,20 +76,20 @@ diff -U1 src/output_mp4.c ./output_mp4.c
 +  if (start_exact_time_sample == start_sample)
 +    return; // starting at wanted time already, nothing to do!
 +
-+  MP4_INFO("FFGOP: start: %fs;  sample start exact time:%u;  sample keyframe just before:%u\n", 
++  MP4_INFO("FFGOP: start: %fs;  sample start exact time:%u;  sample keyframe just before:%u\n",
 +           options->start, start_exact_time_sample, start_sample);
 +  MP4_INFO("FFGOP: moov_time_scale = %f, trak_time_scale = %f\n", moov_time_scale, trak_time_scale);
 +
-+  
-+  
++
++
 +
 +  // In practice, IA videos seem to always have stts->entries_ == 1 8-)
 +  // That's the starting number / table setup.
 +  // The STTS atom will be rewritten by caller, expanding to more entries since we dropping durations!
 +  unsigned int s=0, i=0, j=0, nRewritten=0;
-+  for (j=0; j < stts->entries_; j++){ 
++  for (j=0; j < stts->entries_; j++){
 +    for (i=0; i < stts->table_[j].sample_count_; i++){
-+      // NOTE: begin time-shifting at "start_sample" bec. mod_h264_streaming 
++      // NOTE: begin time-shifting at "start_sample" bec. mod_h264_streaming
 +      // finds the keyframe (sample time) before the exact start time, and *then*
 +      // decrements by one.  so those samples "go out the door" -- and thus we
 +      // need to rewrite them, too
@@ -98,7 +103,7 @@ diff -U1 src/output_mp4.c ./output_mp4.c
 +        uint64_t pts2 = trak->samples_[start_exact_time_sample].pts_ - (start_exact_time_sample-s);
 +        //uint64_t pts2 = trak->samples_[start_exact_time_sample].pts_ + (s <= (start_sample+1) ? -2 : -1);
 +        trak->samples_[s].pts_ = pts2;
-+        MP4_INFO("FFGOP: stts[%d] samples_[%d].pts_ = %lu (%0.3fsec)  REWRITING TO %lu (%0.3fsec)\n", 
++        MP4_INFO("FFGOP: stts[%d] samples_[%d].pts_ = %lu (%0.3fsec)  REWRITING TO %lu (%0.3fsec)\n",
 +                 j, s, pts, ((float)pts / trak_time_scale), pts2, ((float)pts2 / trak_time_scale));
 +        nRewritten++;
 +      }
@@ -114,7 +119,7 @@ diff -U1 src/output_mp4.c ./output_mp4.c
 +
  static void trak_update_index(struct mp4_context_t const* mp4_context,
 @@ -493,2 +561,6 @@
- 
+
 +
 +    if (options->exact)
 +      trak_fast_forward_first_partial_GOP(mp4_context, options, trak, start_sample);
