@@ -166,7 +166,8 @@ static int get_aligned_start_and_end(struct mp4_context_t const* mp4_context,
         }
         else
         {
-          end = stbl_get_nearest_keyframe(stbl, end + 1) - 1;
+          // Do not need to jump to the nearest keyframe, exact ending works well
+          //end = stbl_get_nearest_keyframe(stbl, end + 1) - 1;
         }
         MP4_INFO("end=%u (zero based keyframe)\n", end);
         trak_sample_end[i] = end;
@@ -413,6 +414,11 @@ extern int mp4_split(struct mp4_context_t* mp4_context,
           long trak_time_scale = trak->mdia_->mdhd_->timescale_;
           struct stts_t* stts = trak->mdia_->minf_->stbl_->stts_;
           unsigned int start_exact_time_sample = stts_get_sample(stts, moov_time_to_trak_time((options->start * moov_time_scale), moov_time_scale, trak_time_scale));
+          if (start_exact_time_sample >= trak_sample_end[i]){
+            // may be a source with truncated video -- or requested start past video end..
+            MP4_WARNING("FFGOP: AUDIO ISSUE - ENDS BEFORE WANTED START - WILL WRITE %u SAMPLES..\n", 0);
+            start_exact_time_sample = trak_sample_end[i];
+          }
           MP4_WARNING("FFGOP: AUDIO REWRITING trak_sample_start[%i]: %u => %u\n", i, trak_sample_start[i], start_exact_time_sample);
           trak_sample_start[i] = start_exact_time_sample;
         }
