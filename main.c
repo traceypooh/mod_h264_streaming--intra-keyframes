@@ -11,7 +11,7 @@
 
 int main(int argc, char *argv[])
 {
-  char *filename = (argc > 1 ? argv[1] : "/home/tracey/public_html/_/x/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4");
+  char *filename = (argc > 1 ? argv[1] : "/home/tracey/public_html/_/mod_h264_streaming2/COMW_20130726_023000_The_Daily_Show_With_Jon_Stewart.mp4");
   float start    = (argc > 2 ? atof(argv[2]) : 1207);
   float end      = (argc > 3 ? atoi(argv[3]) : start + 30);
 
